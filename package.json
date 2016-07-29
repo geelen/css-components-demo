@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "devDependencies": {
+    "aphrodite": "^0.5.0",
+    "css-wipe": "^4.2.2",
     "react-scripts": "0.2.0"
   },
   "dependencies": {
