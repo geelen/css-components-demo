@@ -1,13 +1,5 @@
-import jss from 'jss'
-import vendorPrefixer from 'jss-vendor-prefixer'
-
-const styles = {
-  'outer > span': {
-    fontWeight: 600
-  }
-}
-console.log(jss.createStyleSheet(styles).attach())
-
+import {css} from 'aphrodite/no-important'
+import {hashObject} from 'aphrodite/lib/util'
 import Rule from './Rule'
 
 let count = 0
@@ -21,20 +13,23 @@ class Fragment {
   injectStyles(context = null) {
     const rules = this.rulesOrSubFragments.filter(r => r instanceof Rule)
     const fragments = this.rulesOrSubFragments.filter(f => f instanceof Fragment)
+    const styles = Object.assign({}, ...rules.map(r => r.toObject()))
     if (!context) {
       /* We are the top level Fragment, proceed as normal */
-      const styles = jss.createStyleSheet({
-        [this.key]: Object.assign({}, ...rules.map(r => r.toObject()))
-      }).attach()
-      const className = styles.classes[this.key];
+      console.log(styles)
+      const className = css({
+        _name: this.key+'_'+hashObject(styles),
+        _definition: styles
+      });
       fragments.forEach(f => f.injectStyles(className))
+      console.log(className)
       return className
     } else {
-      const key = `${this.key} span`
-      console.log(key)
-      // css(StyleSheet.create({
-      //   [key]: Object.assign({}, ...rules.map(r => r.toObject()))
-      // })[key])
+      const key = `${context} ${this.selector}`
+      css({
+        _name: key,
+        _definition: styles
+      });
     }
 
     // return Object.assign({}, ...this.rulesOrSubFragments.map(
