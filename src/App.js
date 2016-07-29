@@ -8,6 +8,9 @@ const App = elem(
     Rule('font-weight', 'bold')
   ),
   Rule('width', '100vw'),
+  Fragment('&:hover',
+    Rule('background', 'red')
+  )
 )
 
 /*

@@ -25,7 +25,7 @@ class Fragment {
       console.log(className)
       return className
     } else {
-      const key = `${context} ${this.selector}`
+      const key = `${context}${this.selector.startsWith('&') ? this.selector.slice(1) : ' ' + this.selector}`
       css({
         _name: key,
         _definition: styles
