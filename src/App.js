@@ -1,18 +1,27 @@
 import React from 'react';
-import { elem } from './styled-elem'
-import { background, height } from './styled-elem/css'
-//
-// const App = elem(
-//   Rule('background', 'blue'),
-//   Rule('height', '100vh'),
-//   Fragment('> span',
-//     Rule('font-weight', 'bold')
-//   ),
-//   Rule('width', '100vw'),
-//   Fragment('&:hover',
-//     Rule('background', 'red')
-//   )
-// )
+import { elem, Fragment } from './styled-elem'
+import { background, height, fontWeight, padding, textAlign, display, vh, rem, textTransform, content } from './styled-elem/css'
+
+const bluebg = background('blue')
+const redbg = background('red')
+const after = text => Fragment('&::after', content(`'${text}'`))
+
+const App = elem(
+  bluebg,
+  height(vh(100)),
+  Fragment('> span',
+    fontWeight(600),
+    padding(rem(4)),
+    textAlign.center,
+    display.block,
+    after('?'),
+    Fragment('&:hover',
+      redbg,
+      textTransform('uppercase'),
+      after('!')
+    )
+  )
+)
 
 /*
 background: blue;
@@ -31,8 +40,8 @@ const Main = elem(
 )
 
 export default () =>
-  <div style={{background: 'red', foo: 'bar'}}>
-    <span>yeah?</span>
+  <App>
+    <span>yeah</span>
     <Nav/>
     <Main/>
-  </div>
+  </App>

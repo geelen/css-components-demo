@@ -22,14 +22,14 @@ class Fragment {
         _definition: styles
       });
       fragments.forEach(f => f.injectStyles(className))
-      console.log(className)
       return className
     } else {
       const key = `${context}${this.selector.startsWith('&') ? this.selector.slice(1) : ' ' + this.selector}`
       css({
         _name: key,
         _definition: styles
-      });
+      })
+      fragments.forEach(f => f.injectStyles(key))
     }
 
     // return Object.assign({}, ...this.rulesOrSubFragments.map(
