@@ -2,12 +2,12 @@ import React from 'react';
 import { elem, Fragment } from './styled-elem'
 import { background, height, fontWeight, padding, textAlign, display, vh, rem, textTransform, content } from './styled-elem/css'
 
-const bluebg = background('blue')
-const redbg = background('red')
+const blueBg = background('blue')
+const redBg = background('red')
 const after = text => Fragment('&::after', content(`'${text}'`))
 
 const App = elem(
-  bluebg,
+  blueBg,
   height(vh(100)),
   Fragment('> span',
     fontWeight(600),
@@ -16,7 +16,7 @@ const App = elem(
     display.block,
     after('?'),
     Fragment('&:hover',
-      redbg,
+      redBg,
       textTransform('uppercase'),
       after('!')
     )
