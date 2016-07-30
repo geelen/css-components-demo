@@ -11,7 +11,7 @@ const App = elem(
 
 const Nav = elem('nav',
   height(rem(3.3)),
-  borders('light red bottom')
+  borders('bottom light')
 )
 
 const Main = elem(
