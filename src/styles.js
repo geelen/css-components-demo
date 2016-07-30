@@ -1,6 +1,6 @@
-import { trait } from './styled-elem'
-import { background, border, borderBottom } from './styled-elem/css'
-import { complex } from './styled-elem/css/utils'
+import { trait, Rule } from './styled-elem'
+import { background } from './styled-elem/css'
+import { options } from './styled-elem/css/utils'
 
 export const grey = '#e1e8ed'
 
@@ -8,10 +8,27 @@ export const backgrounds = {
   white: background('white')
 }
 
-export const borders = complex('borders', values => {
-  const weight = values.thick ? '4px' : values.medium ? '2px' : '1px'
-  const color = values.light ? grey : 'black'
-  const style = values.dotted ? 'dotted' : 'solid'
-  const side = values.bottom ? borderBottom : border
-  return side(`${weight} ${style} ${color}`)
+export const borders = options('borders', {
+  weight: {
+    thick: '4px',
+    medium: '2px',
+    default: '1px'
+  },
+  color: {
+    light: grey,
+    default: 'black'
+  },
+  side: {
+    left: 'borderLeft',
+    top: 'borderTop',
+    right: 'borderRight',
+    bottom: 'borderBottom',
+    default: 'border'
+  },
+  style: {
+    dotted: 'dotted',
+    default: 'solid'
+  }
+}, ({weight, color, style, side}) => {
+  return Rule(side, `${weight} ${style} ${color}`)
 })
