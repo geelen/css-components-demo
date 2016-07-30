@@ -1,38 +1,17 @@
 import React from 'react';
 import { elem, Fragment } from './styled-elem'
-import { background, height, fontWeight, padding, textAlign, display, vh, rem, textTransform, content } from './styled-elem/css'
 
-const blueBg = background('blue')
-const redBg = background('red')
-const after = text => Fragment('&::after', content(`'${text}'`))
+import { backgrounds, borders } from './styles'
+import {minHeight, rem, height, vh} from "./styled-elem/css";
 
 const App = elem(
-  blueBg,
-  height(vh(100)),
-  Fragment('> span',
-    fontWeight(600),
-    padding(rem(4)),
-    textAlign.center,
-    display.block,
-    after('?'),
-    Fragment('&:hover',
-      redBg,
-      textTransform('uppercase'),
-      after('!')
-    )
-  )
+  minHeight(vh(100)),
+  backgrounds.white,
 )
 
-/*
-background: blue;
-height: 100vh;
-& > span {
-  font-weight: bold;
-}
-*/
-
-const Nav = elem(
-
+const Nav = elem('nav',
+  height(rem(3.3)),
+  borders('light bottom')
 )
 
 const Main = elem(
@@ -41,7 +20,6 @@ const Main = elem(
 
 export default () =>
   <App>
-    <span>yeah</span>
     <Nav/>
     <Main/>
   </App>
