@@ -1,4 +1,6 @@
-import Rule from '../Rule'
+import RuleSet from '../RuleSet'
+
+export const Rule = (prop, val) => new RuleSet({ [prop]: val })
 
 /* The basic Rule constructor */
 export const simple = (property, ...shorthands) => {
@@ -20,10 +22,10 @@ export const toggles = (name, cb) => valueString => {
 
 /* Build up a set of options */
 export const options = (name, definitions, cb) => {
-  const _throw = message => {
-    throw new Error(`${message}\nValid values for '${name}' are: ${JSON.stringify(definitions, null, 2)}`)
-  }
   const flatDefinitions = {}
+  const _throw = message => {
+    throw new Error(`${message}\nValid values for '${name}' are:\n${Object.keys(flatDefinitions).join('\n')}`)
+  }
   Object.keys(definitions).forEach(category => {
     Object.keys(definitions[category]).forEach(option => {
       if (option === 'default') return
@@ -31,10 +33,10 @@ export const options = (name, definitions, cb) => {
       flatDefinitions[option] = { category, option, value: definitions[category][option] }
     })
   })
-  return valueString => {
+  return (valueString = '') => {
     const values = valueString.split(/ +/)
     const obj = {}
-    values.forEach(v => {
+    values.filter(x => x).forEach(v => {
       const definition = flatDefinitions[v]
       if (!definition) _throw(`Unknown value '${v}' for ${name}.`)
       const { category } = definition
@@ -43,7 +45,8 @@ export const options = (name, definitions, cb) => {
     })
     Object.keys(definitions).forEach(category => {
       if (typeof obj[category] === 'undefined') {
-        obj[category] = definitions[category].default || _throw(`Not provided value for category '${category}' and no default specified.`)
+        if (typeof definitions[category].default === 'undefined') _throw(`No provided value for category '${category}' and no default specified.`)
+        obj[category] = definitions[category].default
       } else {
         obj[category] = obj[category].value
       }
@@ -51,3 +54,6 @@ export const options = (name, definitions, cb) => {
     return cb(obj)
   }
 }
+
+export const all = (...rules) => rules.filter(r=>r)
+  .reduce((set, r) => set.merge(r), new RuleSet())

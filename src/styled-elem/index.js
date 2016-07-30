@@ -1,8 +1,8 @@
 import elem from './elem'
 import trait from './trait'
-import _Rule from './Rule'
-import _Fragment from './Fragment'
+import RuleSet from './RuleSet'
+import { Rule } from './css/utils'
+import Fragment from './Fragment'
 
-export { elem, trait }
-export const Rule = (...args) => new _Rule(...args)
-export const Fragment = (...args) => new _Fragment(...args)
+export { elem, trait, RuleSet, Rule, Fragment }
+export const nested = (...args) => new Fragment(...args)

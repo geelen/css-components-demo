@@ -1,19 +1,21 @@
 import {css} from 'aphrodite/no-important'
 import {hashObject} from 'aphrodite/lib/util'
-import Rule from './Rule'
+import RuleSet from './RuleSet'
 
 let count = 0
 class Fragment {
   constructor(selector, ...rulesOrSubFragments) {
     this.key = `_${count++}`
     this.selector = selector
+    console.log("RULES")
+    console.log(rulesOrSubFragments)
     this.rulesOrSubFragments = rulesOrSubFragments
   }
 
   injectStyles(context = null) {
-    const rules = this.rulesOrSubFragments.filter(r => r instanceof Rule)
+    const rules = this.rulesOrSubFragments.filter(r => r instanceof RuleSet)
     const fragments = this.rulesOrSubFragments.filter(f => f instanceof Fragment)
-    const styles = Object.assign({}, ...rules.map(r => r.toObject()))
+    const styles = rules.reduce((set, r) => set.merge(r), new RuleSet()).rules
     if (!context) {
       /* We are the top level Fragment, proceed as normal */
       console.log(styles)
