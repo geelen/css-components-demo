@@ -1,12 +1,13 @@
 import { trait, Rule } from './styled-elem'
-import { background } from './styled-elem/css'
+import * as css from './styled-elem/css'
+export { css }
 import { options } from './styled-elem/css/utils'
 
 export const grey = '#e1e8ed'
 export const red = '#e53636'
 
 export const backgrounds = {
-  white: background('white')
+  white: css.background('white')
 }
 
 export const borders = options('borders', {
