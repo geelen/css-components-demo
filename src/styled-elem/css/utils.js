@@ -1,4 +1,5 @@
 import RuleSet from '../RuleSet'
+import camelize from 'fbjs/lib/camelizeStyleName'
 
 export const Rule = (prop, val) => new RuleSet({ [prop]: val })
 
@@ -57,3 +58,15 @@ export const options = (name, definitions, cb) => {
 
 export const all = (...rules) => rules.filter(r=>r)
   .reduce((set, r) => set.merge(r), new RuleSet())
+
+const css_regexp = /^\s*([\w-]+):\s+([^;]*);\s*$/
+export const fromString = (strings, ...interpolations) => {
+  const rules = new RuleSet()
+  strings.forEach(str => str.split('\n').forEach(line => {
+    const [_, property, value] = css_regexp.exec(line) || []
+    if (property && value) rules.add(camelize(property), value)
+  }))
+  return interpolations
+    .filter(r => r instanceof RuleSet)
+    .reduce((rules, r) => rules.merge(r), rules)
+}

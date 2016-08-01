@@ -1,10 +1,12 @@
 import React from 'react'
 import { elem, fromString } from './styled-elem'
+import { css } from './styles'
 
 const Outer = elem(fromString`
   margin: 0 auto;
-  ${123}
+  ${css.margin('4rem')}
   display: block;
+  background: red;
 `)
 const Header = elem(fromString``)
 const Profile = elem(fromString``)
