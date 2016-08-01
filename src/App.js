@@ -1,9 +1,10 @@
 import React from 'react';
 import { elem } from './styled-elem'
-
-import Nav from './Nav'
 import { backgrounds, borders } from './styles'
 import {minHeight, rem, height, vh} from "./styled-elem/css";
+
+import Nav from './Nav'
+import TweetDisplay from './TweetDisplay'
 
 const App = elem(
   minHeight(vh(100)),
@@ -17,5 +18,7 @@ const Main = elem(
 export default () =>
   <App>
     <Nav/>
-    <Main/>
+    <Main>
+      <TweetDisplay/>
+    </Main>
   </App>

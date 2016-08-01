@@ -6,4 +6,8 @@ export default class RuleSet {
   merge(other) {
     return new RuleSet(Object.assign({}, this.rules, other.rules))
   }
+
+  add(property, value) {
+    this.rules[property] = value
+  }
 }
