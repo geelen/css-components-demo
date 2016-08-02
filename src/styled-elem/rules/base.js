@@ -1,4 +1,4 @@
-import {simple} from './utils'
+import simple from '../constructors/simple'
 
 export const alignItems                = simple('alignItems')
 export const alignSelf                 = simple('alignSelf')

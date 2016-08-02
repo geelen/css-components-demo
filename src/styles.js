@@ -1,7 +1,4 @@
-import { trait, Rule } from './styled-elem'
-import * as css from './styled-elem/css'
-export { css }
-import { options, all } from './styled-elem/css/utils'
+import { trait, rule, rules, concat } from './styled-elem'
 
 export const grey = '#e1e8ed'
 export const darkGrey = '#8899a6'
@@ -9,10 +6,10 @@ export const blue = '#1da1f2'
 export const red = '#e53636'
 
 export const backgrounds = {
-  white: css.background('white')
+  white: rules.background('white')
 }
 
-export const borders = options('borders', {
+export const borders = trait('borders', {
   weight: {
     thick: '4px',
     medium: '2px',
@@ -35,32 +32,32 @@ export const borders = options('borders', {
     default: 'solid'
   }
 }, ({weight, color, style, side}) => {
-  return Rule(side, `${weight} ${style} ${color}`)
+  return rule(side, `${weight} ${style} ${color}`)
 })
 
-export const flex = options('flex', {
+export const flex = trait('flex', {
   direction: {
-    vertical: css.flexDirection('column'),
+    vertical: rules.flexDirection('column'),
     default: null
   },
   display: {
-    inline: css.display('flex-inline'),
-    default: css.display('flex')
+    inline: rules.display('flex-inline'),
+    default: rules.display('flex')
   },
   justify: {
-    'space-around': css.justifyContent('space-around'),
-    'space-between': css.justifyContent('space-between'),
-    'justify-center': css.justifyContent('center'),
-    'justify-start': css.justifyContent('flex-start'),
-    'justify-end': css.justifyContent('flex-end'),
+    'space-around': rules.justifyContent('space-around'),
+    'space-between': rules.justifyContent('space-between'),
+    'justify-center': rules.justifyContent('center'),
+    'justify-start': rules.justifyContent('flex-start'),
+    'justify-end': rules.justifyContent('flex-end'),
     default: null
   },
   align: {
-    'align-center': css.alignItems('center'),
-    'align-start': css.alignItems('flex-start'),
-    'align-end': css.alignItems('flex-end'),
+    'align-center': rules.alignItems('center'),
+    'align-start': rules.alignItems('flex-start'),
+    'align-end': rules.alignItems('flex-end'),
     default: null
   }
 }, ({display, direction, justify}) => {
-  return all(display, direction, justify)
+  return concat(display, direction, justify)
 })

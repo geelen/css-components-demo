@@ -3,7 +3,7 @@ import camelize from 'fbjs/lib/camelizeStyleName'
 import RuleSet from '../models/RuleSet'
 
 const css_regexp = /^\s*([\w-]+):\s+([^;]*);\s*$/
-export const fromString = (strings, ...interpolations) => {
+export default (strings, ...interpolations) => {
   const rules = new RuleSet()
   strings.forEach(str => str.split('\n').forEach(line => {
     const [_, property, value] = css_regexp.exec(line) || []
