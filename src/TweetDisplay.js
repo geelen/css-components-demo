@@ -1,19 +1,18 @@
 import React from 'react'
-import { elem, fromString, rule } from './styled-elem'
-import { css } from './styles'
+import { elem, css, rules, units } from './styled-elem'
 
-const Outer = elem(fromString`
+const Outer = elem(css`
   margin: 0 auto;
-  ${rule.margin.rems(4)}
+  ${rules.margin(units.rem(4))}
   display: block;
   background: red;
 `)
-const Header = elem(fromString``)
-const Profile = elem(fromString``)
-const Name = elem(fromString``)
-const Handle = elem(fromString``)
-const Body = elem(fromString``)
-const InlineLink = elem(fromString``)
+const Header = elem(css``)
+const Profile = elem(css``)
+const Name = elem(css``)
+const Handle = elem(css``)
+const Body = elem(css``)
+const InlineLink = elem(css``)
 
 export default () =>
   <Outer>

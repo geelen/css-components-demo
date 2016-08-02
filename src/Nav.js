@@ -1,7 +1,8 @@
 import React from 'react';
-import {elem, nested} from './styled-elem'
-import {borders, flex, css, darkGrey, blue } from './styles'
-const { height, rem, padding, color, fill } = css
+import {elem, nested, rules, units} from './styled-elem'
+import {borders, flex, darkGrey, blue } from './styles'
+const { height, padding, color, fill } = rules
+const { rem } = units
 
 const Nav = elem('nav',
   height(rem(3.3)),

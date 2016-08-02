@@ -1,13 +1,14 @@
 import React from 'react';
-import { elem, rules, css } from './styled-elem'
+import { elem, css } from './styled-elem'
 import { minHeight } from './styled-elem/rules'
+import { vh } from './styled-elem/units'
 import { backgrounds } from './styles'
 
 import Nav from './Nav'
 import TweetDisplay from './TweetDisplay'
 
 const App = elem(
-  rules.minHeight.vh(100),
+  minHeight(vh(100)),
   backgrounds.white
 )
 
