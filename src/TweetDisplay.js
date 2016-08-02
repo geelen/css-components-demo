@@ -58,6 +58,19 @@ const Timestamp = elem('datetime', css`
   color: ${grey};
 `)
 
+const TootCount = elem(css`
+  ${borders('top light')}
+  ${typography('upcase bold')}
+  margin-top: 1rem;
+  padding: 1.33rem 0;
+  > small {
+    ${typography('14pt light grey')}
+  }
+  > small:first-child {
+    margin-right: 2rem;
+  }
+`)
+
 export default () =>
   <Outer>
     <Header>
@@ -77,5 +90,9 @@ export default () =>
     <Media>
       <img src="https://pbs.twimg.com/media/CnwCr-nW8AAcQeZ.jpg" alt=""/>
     </Media>
-    <Timestamp>July 20, 2016, 5:17 AM</Timestamp>
+    <Timestamp>Jul 20, 2016, 5:17 AM</Timestamp>
+    <TootCount>
+      32 <small>retweets</small>
+      79 <small>likes</small>
+    </TootCount>
   </Outer>

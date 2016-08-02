@@ -1,5 +1,5 @@
 import { trait, rule, rules, concat } from './styled-elem'
-const {flexDirection, fontWeight, alignItems, justifyContent, background, color, display, fontFamily, lineHeight, fontSize } = rules
+const {flexDirection, fontWeight, alignItems, justifyContent, background, color, display, fontFamily, fontFeatureSettings, lineHeight, fontSize, textTransform } = rules
 
 export const lightGrey = '#e1e8ed'
 export const grey = '#8899a6'
@@ -89,16 +89,24 @@ export const typography = trait('typography', {
     blue: color(blue)
   },
   typeface: {
-    sans: fontFamily("Helvetica Neue,Helvetica,Arial,sans-serif"),
+    sans: concat(
+      fontFamily("Helvetica Neue,Helvetica,Arial,sans-serif"),
+      fontFeatureSettings('"kern" 1')
+    ),
     default: null
   },
   fontSize: {
     '20pt': fontSize('1.25rem'),
+    '14pt': fontSize('0.85rem'),
     default: null
   },
   lineHeight: {
     'lh-normal': lineHeight('1.3125rem'),
     'lh-para': lineHeight('1.5em'),
+    default: null
+  },
+  case: {
+    upcase: textTransform('uppercase'),
     default: null
   }
 })
