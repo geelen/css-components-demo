@@ -1,5 +1,5 @@
 import { trait, rule, rules, concat } from './styled-elem'
-const {flexDirection, fontWeight, alignItems, justifyContent, background, color, display, fontFamily, lineHeight } = rules
+const {flexDirection, fontWeight, alignItems, justifyContent, background, color, display, fontFamily, lineHeight, fontSize } = rules
 
 export const lightGrey = '#e1e8ed'
 export const grey = '#8899a6'
@@ -78,19 +78,26 @@ export const flex = trait('flex', {
 export const typography = trait('typography', {
   weight: {
     bold: fontWeight(700),
+    light: fontWeight(300),
     default: null
   },
   color: {
     default: null,
-    lightBlack: color(darkGrey),
-    grey: color(grey)
+    darkGrey: color(darkGrey),
+    grey: color(grey),
+    blue: color(blue)
   },
   typeface: {
     sans: fontFamily("Helvetica Neue,Helvetica,Arial,sans-serif"),
     default: null
   },
+  fontSize: {
+    '20pt': fontSize('1.25rem'),
+    default: null
+  },
   lineHeight: {
     'lh-normal': lineHeight('1.3125rem'),
+    'lh-para': lineHeight('1.5em'),
     default: null
   }
 })

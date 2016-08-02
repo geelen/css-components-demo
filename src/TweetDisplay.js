@@ -4,6 +4,7 @@ import { flex, typography, borders } from './styles'
 
 const Outer = elem(css`
   padding: 0 .6rem;
+  ${typography('darkGrey')}
 `)
 const Header = elem(css`
   ${flex('align-stretch')}
@@ -22,14 +23,18 @@ const Name = elem(css`
   flex-basis: 0;
   margin-left: 0.5rem;
   > h1 {
-    ${typography('bold lightBlack lh-normal')}
+    ${typography('bold lh-normal')}
   }
   > h2 {
     ${typography('grey')}
   }
 `)
-const Body = elem(css``)
+const Body = elem(css`
+  padding: 0.66rem 0;
+  ${typography('20pt light lh-para')}
+`)
 const InlineLink = elem('a', css`
+  ${typography('blue')}
   text-decoration: none;
   &:hover, &:active {
     text-decoration: underline;
@@ -47,9 +52,9 @@ export default () =>
         <h2>@mxstbr</h2>
       </Name>
     </Header>
-    <Body>👏 Love love love this article by
-      <InlineLink src="https://mobile.twitter.com/chantastic">@chantastic</InlineLink>.
-      CSS-in-JS isn’t a campaign against CSS!
-      <InlineLink src="https://t.co/P3QdkX88rs">medium.com/learnreact/sca…</InlineLink>
+    <Body>👏 Love love love this article
+      by <InlineLink src="https://mobile.twitter.com/chantastic">@chantastic</InlineLink>.
+      CSS-in-JS isn’t a campaign against
+      CSS! <InlineLink src="https://t.co/P3QdkX88rs">medium.com/learnreact/sca…</InlineLink>
     </Body>
   </Outer>
