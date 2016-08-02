@@ -1,3 +1,5 @@
+import concat from './concat'
+
 export default (name, definitions, cb) => {
   const flatDefinitions = {}
   const _throw = message => {
@@ -28,6 +30,6 @@ export default (name, definitions, cb) => {
         obj[category] = obj[category].value
       }
     })
-    return cb(obj)
+    return cb ? cb(obj) : concat(...Object.keys(obj).map(k => obj[k]))
   }
 }

@@ -5,7 +5,7 @@ import rule from "./rule"
 import RuleSet from "../models/RuleSet";
 
 const declaration = /^\s*([\w-]+):\s+([^;]*);\s*$/
-const startNesting = /^\s*([\w\.:&][^{]+)\{\s*$/
+const startNesting = /^\s*([\w\.:&>][^{]+)\{\s*$/
 const stopNesting = /^\s*}\s*$/
 
 export default (strings, ...interpolations) => {

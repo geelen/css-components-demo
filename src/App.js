@@ -2,7 +2,7 @@ import React from 'react';
 import { elem, css } from './styled-elem'
 import { minHeight } from './styled-elem/rules'
 import { vh } from './styled-elem/units'
-import { backgrounds } from './styles'
+import { backgrounds, typography } from './styles'
 
 import Nav from './Nav'
 import TweetDisplay from './TweetDisplay'
@@ -13,7 +13,9 @@ const App = elem(
 )
 
 const Main = elem('main', css`
-  display: block;
+  ${typography('sans')}
+  max-width: 400px;
+  margin: 0 auto;
 `)
 
 export default () =>
