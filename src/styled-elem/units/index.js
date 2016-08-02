@@ -1,4 +1,4 @@
-import {unit} from './utils'
+export const unit = u => value => `${value}${u}`
 
 export const vh = unit('vh')
 export const vw = unit('vw')

@@ -1,9 +1,14 @@
-import elem from './elem'
-import trait from './trait'
-import RuleSet from './RuleSet'
-import { Rule, fromString } from './css/utils'
-import Fragment from './Fragment'
+import Element from './models/Element'
+import RuleSet from './models/RuleSet'
+import Fragment from './models/Fragment'
 
-export { elem, trait, RuleSet, Rule, Fragment, fromString }
-export const nested = (...args) => new Fragment(...args)
+import * as rules from './rules'
+import * as units from './units'
 
+/* Lower-case constructor helper functions */
+const elem = Element
+const rule = (...args) => new RuleSet(...args)
+const fragment = (...args) => new Fragment(...args)
+const nested = fragment
+
+export { elem, rule, rules, units, fragment, nested }

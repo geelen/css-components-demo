@@ -6,7 +6,7 @@ import Fragment from './Fragment'
 const ensureTagThenStyles = list =>
   typeof list[0] === 'string' ? list : ['div'].concat(list)
 
-const elem = (...properties) => {
+const Element = (...properties) => {
   const [tagName, ...styleFragments] = ensureTagThenStyles(properties)
   const outerFragment = Fragment(null, ...styleFragments)
   const className = outerFragment.injectStyles()
@@ -20,6 +20,4 @@ const elem = (...properties) => {
   )
 }
 
-elem.span = elem.bind(null, 'span')
-
-export default elem
+export default Element

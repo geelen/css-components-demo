@@ -1,10 +1,10 @@
 import React from 'react'
-import { elem, fromString } from './styled-elem'
+import { elem, fromString, rule } from './styled-elem'
 import { css } from './styles'
 
 const Outer = elem(fromString`
   margin: 0 auto;
-  ${css.margin('4rem')}
+  ${rule.margin.rems(4)}
   display: block;
   background: red;
 `)

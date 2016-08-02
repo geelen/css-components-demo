@@ -1,19 +1,19 @@
 import React from 'react';
-import { elem } from './styled-elem'
-import { backgrounds, borders } from './styles'
-import {minHeight, rem, height, vh} from "./styled-elem/css";
+import { elem, rules, css } from './styled-elem'
+import { minHeight } from './styled-elem/rules'
+import { backgrounds } from './styles'
 
 import Nav from './Nav'
 import TweetDisplay from './TweetDisplay'
 
 const App = elem(
-  minHeight(vh(100)),
-  backgrounds.white,
+  rules.minHeight.vh(100),
+  backgrounds.white
 )
 
-const Main = elem(
-
-)
+const Main = elem('main', css`
+  display: block;
+`)
 
 export default () =>
   <App>
