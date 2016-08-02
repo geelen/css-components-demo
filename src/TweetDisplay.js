@@ -8,11 +8,18 @@ const Outer = elem(css`
   background: red;
 `)
 const Header = elem(css``)
-const Profile = elem(css``)
+const Profile = elem('img', css`
+  display: block;
+`)
 const Name = elem(css``)
 const Handle = elem(css``)
 const Body = elem(css``)
-const InlineLink = elem(css``)
+const InlineLink = elem('a', css`
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+`)
 
 export default () =>
   <Outer>

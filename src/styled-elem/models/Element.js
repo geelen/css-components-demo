@@ -8,7 +8,7 @@ const ensureTagThenStyles = list =>
 
 const Element = (...properties) => {
   const [tagName, ...styleFragments] = ensureTagThenStyles(properties)
-  const outerFragment = Fragment(null, ...styleFragments)
+  const outerFragment = new Fragment(null, ...styleFragments)
   const className = outerFragment.injectStyles()
 
   /* Return a stateless functional component that simply renders

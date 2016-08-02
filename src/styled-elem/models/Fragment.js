@@ -3,18 +3,30 @@ import {hashObject} from 'aphrodite/lib/util'
 import RuleSet from './RuleSet'
 
 let count = 0
-class Fragment {
+export default class Fragment {
   constructor(selector, ...rulesOrSubFragments) {
     this.key = `_${count++}`
     this.selector = selector
-    console.log("RULES")
-    console.log(rulesOrSubFragments)
     this.rulesOrSubFragments = rulesOrSubFragments
   }
 
+  push(ruleOrSubFragment) {
+    this.rulesOrSubFragments.push(ruleOrSubFragment)
+  }
+
   injectStyles(context = null) {
-    const rules = this.rulesOrSubFragments.filter(r => r instanceof RuleSet)
-    const fragments = this.rulesOrSubFragments.filter(f => f instanceof Fragment)
+    /* First, flatten */
+    const all = []
+    this.rulesOrSubFragments.forEach(f => {
+      if (f instanceof Fragment && f.selector === null) {
+        all.push(...f.rulesOrSubFragments)
+      } else {
+        all.push(f)
+      }
+    })
+
+    const rules = all.filter(r => r instanceof RuleSet)
+    const fragments = all.filter(f => f instanceof Fragment)
     const styles = rules.reduce((set, r) => set.merge(r), new RuleSet()).rules
     if (!context) {
       /* We are the top level Fragment, proceed as normal */
@@ -33,11 +45,5 @@ class Fragment {
       })
       fragments.forEach(f => f.injectStyles(key))
     }
-
-    // return Object.assign({}, ...this.rulesOrSubFragments.map(
-    //   subfrag => typeof subfrag.toObject === 'function' ? subfrag.toObject() : subfrag
-    // ))
   }
 }
-
-export default (...args) => new Fragment(...args)

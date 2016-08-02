@@ -1,15 +1,65 @@
 import camelize from 'fbjs/lib/camelizeStyleName'
 
-import RuleSet from '../models/RuleSet'
+import Fragment from "../models/Fragment"
+import rule from "./rule"
+import RuleSet from "../models/RuleSet";
 
-const css_regexp = /^\s*([\w-]+):\s+([^;]*);\s*$/
+const declaration = /^\s*([\w-]+):\s+([^;]*);\s*$/
+const startNesting = /^\s*([\w\.:&][^{]+)\{\s*$/
+const stopNesting = /^\s*}\s*$/
+
 export default (strings, ...interpolations) => {
-  const rules = new RuleSet()
-  strings.forEach(str => str.split('\n').forEach(line => {
-    const [_, property, value] = css_regexp.exec(line) || []
-    if (property && value) rules.add(camelize(property), value)
-  }))
-  return interpolations
-    .filter(r => r instanceof RuleSet)
-    .reduce((rules, r) => rules.merge(r), rules)
+  let currentFragment = new Fragment(null)
+  const stack = [currentFragment]
+  const linesAndInterpolations = strings[0].split('\n')
+  interpolations.forEach((interp, i) => {
+    linesAndInterpolations.push(interp)
+    if (strings[i + 1]) linesAndInterpolations.push(...strings[i + 1].split('\n'))
+  })
+
+  const pushNewFragment = newFragment => {
+    /* Make our fragment a child of the current one*/
+    currentFragment.push(newFragment)
+    /* Pop our fragment on the stack */
+    stack.push(newFragment)
+    /* We're the new currentFragment */
+    currentFragment = newFragment
+  }
+
+  const processLine = line => {
+    const [_, subSelector] = startNesting.exec(line) || []
+    const [__, property, value] = declaration.exec(line) || []
+    const popNesting = stopNesting.exec(line)
+    console.log({subSelector, property, value})
+
+    /* ARE WE STARTING A NESTING? */
+    if (subSelector) {
+      pushNewFragment(new Fragment(subSelector))
+
+      /* ARE WE A NORMAL RULE? */
+    } else if (property && value) {
+      const newRule = rule(camelize(property), value)
+      console.log(newRule)
+      currentFragment.push(newRule)
+    } else if (popNesting) {
+      stack.pop()
+      currentFragment = stack[stack.length - 1]
+    }
+  }
+
+  const processLineOrInterp = lineOrInterp => {
+    console.log(lineOrInterp)
+    if (typeof lineOrInterp === 'string') {
+      processLine(lineOrInterp)
+    } else if (lineOrInterp instanceof Fragment || lineOrInterp instanceof RuleSet) {
+      currentFragment.push(lineOrInterp)
+    }
+  }
+
+  console.log("CSS RUN")
+  console.log(linesAndInterpolations)
+
+  linesAndInterpolations.forEach(processLineOrInterp)
+  console.log(stack[0])
+  return stack[0]
 }
