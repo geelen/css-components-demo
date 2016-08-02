@@ -3,7 +3,7 @@ import { elem, css, rules, units } from './styled-elem'
 
 const Outer = elem(css`
   margin: 0 auto;
-  ${rules.margin(units.rem(4))}
+  ${rules.padding(units.rem(4))}
   display: block;
   background: red;
 `)
@@ -16,7 +16,7 @@ const Handle = elem(css``)
 const Body = elem(css``)
 const InlineLink = elem('a', css`
   text-decoration: none;
-  &:hover {
+  &:hover, &:active {
     text-decoration: underline;
   }
 `)

@@ -38,12 +38,14 @@ export default class Fragment {
       fragments.forEach(f => f.injectStyles(className))
       return className
     } else {
-      const key = `${context}${this.selector.startsWith('&') ? this.selector.slice(1) : ' ' + this.selector}`
-      css({
-        _name: key,
-        _definition: styles
+      this.selector.split(/\s*,\s*/).forEach(selector => {
+        const key = `${context}${selector.startsWith('&') ? selector.slice(1) : ' ' + selector}`
+        css({
+          _name: key,
+          _definition: styles
+        })
+        fragments.forEach(f => f.injectStyles(key))
       })
-      fragments.forEach(f => f.injectStyles(key))
     }
   }
 }
