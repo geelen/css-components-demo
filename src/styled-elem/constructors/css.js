@@ -13,8 +13,15 @@ export default (strings, ...interpolations) => {
   const stack = [currentFragment]
   const linesAndInterpolations = strings[0].split('\n')
   interpolations.forEach((interp, i) => {
-    linesAndInterpolations.push(interp)
-    if (strings[i + 1]) linesAndInterpolations.push(...strings[i + 1].split('\n'))
+    /* Complex interpolation */
+    if (interp instanceof Fragment || interp instanceof RuleSet) {
+      linesAndInterpolations.push(interp)
+      if (strings[i + 1]) linesAndInterpolations.push(...strings[i + 1].split('\n'))
+      /* Simple (value) interpolation */
+    } else {
+      const lastStrIndex = linesAndInterpolations.length - 1
+      linesAndInterpolations[lastStrIndex] = linesAndInterpolations[lastStrIndex] + interp + (strings[i + 1] || '')
+    }
   })
 
   const pushNewFragment = newFragment => {
@@ -55,9 +62,6 @@ export default (strings, ...interpolations) => {
       currentFragment.push(lineOrInterp)
     }
   }
-
-  console.log("CSS RUN")
-  console.log(linesAndInterpolations)
 
   linesAndInterpolations.forEach(processLineOrInterp)
   console.log(stack[0])

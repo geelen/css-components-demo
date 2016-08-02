@@ -27,6 +27,7 @@ export const borders = trait('borders', {
     top: 'borderTop',
     right: 'borderRight',
     bottom: 'borderBottom',
+    all: 'border',
     default: null
   },
   style: {
