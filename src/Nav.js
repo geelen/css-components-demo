@@ -1,5 +1,5 @@
 import React from 'react';
-import {elem, nested, rules, units} from './styled-elem'
+import {elem, nested, rules, units, media} from './styled-elem'
 import {borders, flex, grey, blue } from './styles'
 const { margin, height, padding, color, fill, maxWidth } = rules
 const { rem } = units
@@ -12,7 +12,10 @@ const Nav = elem('nav',
   flex('space-between'),
   maxWidth(400),
   margin('0 auto'),
-  padding('0 0.5rem 0.25rem')
+  padding('0 0.5rem 0.25rem'),
+  media('min-width: 600px',
+    maxWidth(600)
+  )
 )
 
 const Item = elem(
