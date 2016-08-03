@@ -1,10 +1,12 @@
 import Element from './models/Element'
+import RuleSet from './models/RuleSet'
 import Fragment from './models/Fragment'
+import NestedSelector from './models/NestedSelector'
 
 /* Lower-case constructor helper functions */
 const elem = Element
 const fragment = (...args) => new Fragment(...args)
-const nested = fragment
+const nested = (selector, ...rules) => new NestedSelector(selector, new RuleSet(...rules))
 
 /* Wrap the base functions in objects and export*/
 import * as rules from './rules'
