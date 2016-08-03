@@ -23,10 +23,14 @@ export default class Root {
 const injectCss = (selector, rules, fragments) => {
   injectStyleOnce(selector, selector, [rules], false)
   fragments.forEach(fragment => {
-    injectCss(joinSelectors(selector, fragment.selector), fragment.rules, fragment.fragments)
+    const selector2 = joinSelectors(selector, fragment.selector);
+    console.log(selector2)
+    injectCss(selector2, fragment.rules, fragment.fragments)
   })
 }
 
-const joinSelectors = (outer, inner) => (
-  /&/.exec(inner) ? inner.replace(/&/g, outer) : `${outer} ${inner}`
-).replace(/\s+$/,'')
+const joinSelectors = (outer, inner) => outer.split(/\s*,\s*/)
+  .map(outerPart => console.log(`"${outer}" — "${outerPart}"`) || (
+      /&/.exec(inner) ? inner.replace(/&/g, outerPart) : `${outerPart} ${inner}`
+    ).replace(/\s+$/, '')
+  ).join(', ')

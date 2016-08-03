@@ -44,6 +44,12 @@ const InlineLink = elem('a', css`
   text-decoration: none;
   &:hover, &:active {
     text-decoration: underline;
+    body & {
+      border-bottom: none;
+      html & {
+        background: none;
+      }
+    }
   }
 `)
 
