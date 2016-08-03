@@ -4,15 +4,15 @@ I'm calling this idea **Styled Elements** for the moment but want something catc
 
 ## Weird Idea #1 — Generating Elements
 
-Only a HTML element can actually be _rendered_ to the DOM, and thus only a _real HTML element_ can have styling. So, instead of using generic property-passing techniques like `className={x}` or `{...x}` (which work great for components), I propose something much more intertwined:
+Only a HTML element can actually be _rendered_ to the DOM, and thus only a _real HTML element_ can have styling. So, instead of using generic property-passing techniques like `className={x}` or `{...x}`, I propose something much more intertwined:
 
 ```jsx
 import { elem } from 'styled-elem'
 
-const Outer = elem('section', /* styles */)
+const Outer = elem('section', /* styles go here */)
 
 export default (props) => (
-  <Outer attributes="as" normal>
+  <Outer /* attributes as normal */>
     { /* children, too */ }
   </Outer>
 )
@@ -24,9 +24,9 @@ That's functionally equivalent to this (which also works)
 import { generateClassnames } from 'styled-elem'
 
 export default (props) => (
-  <section attributes="as" normal
-           className={generateClassnames(/* styles */)} />
-    { /* children, too */ }
+  <section /* attributes here */
+           className={generateClassnames(/* styles here */)} />
+    { /* children here */ }
   </section>
 )
 ```
@@ -37,7 +37,7 @@ Default tag is currently 'div', and I've thought about declaring aliases like `e
 
 ## Weird Idea #2 — Modelling CSS Fragments
 
-As far as I've seen, every CSS-in-JS approach opts for simple (maybe-nested) JS objects — sticking pretty close to the realities of working with inline styles. I don't think that's good enough to really make _styling code_ (which is how I think about this approach) as malleable as I want. So instead of doing something like this:
+As far as I've seen, every CSS-in-JS approach opts for simple (maybe-nested) JS objects — sticking pretty close to the realities of working with inline styles. I don't think that's good enough to really make _styling code_ as malleable as I want. So instead of doing something like this:
 
 ```js
 const styles = {
@@ -71,7 +71,7 @@ const styles = concat(
   margin('4rem')
 )
 
-/* or, if you're using elem: */
+/* or, if you're using elem the concat is implied: */
 const Outer = elem('section',
   background('papayawhip'),
   color('peru'),
@@ -192,7 +192,7 @@ I might make `default: null` implicit, not sure yet. Maybe a `trait` is a specia
 
 ## Weird Idea #4 — Support all of CSS
 
-...at least as much as possible. I'm happy to propose a new abstraction on top of CSS as long as **you can fall back to CSS when you need to**. I'm talking about tag selectors, pseudo-selectors, descendant selectors, media queries, etc. So, pseudo selectors:
+...at least as much as possible. I'm happy to propose a new abstraction on top of CSS as long as **you can fall back to CSS when you need to**. I'm talking about tag selectors, pseudo-selectors, descendant selectors, media queries, etc. So, I've defined a `nested` and `pseudo` function that take an initial argument and a list of `Rule`s and understand their place in the world:
 
 ```js
 import { elem, rules, nested, psuedo } from 'styled-elem'
@@ -210,7 +210,7 @@ const Nav = elem('nav',
 )
 ```
 
-I had to butcher Aphrodite to get this going but it _is_ going! I'm a big fan of direct-descendant selectors, often you'll have a structure like:
+I had to butcher Aphrodite to get this going but it _is_ going! I'm a big fan of direct-descendant selectors in particular, often you'll have a structure like:
 
 ```jsx
 <ProfileImg>
@@ -279,19 +279,19 @@ const Outer = elem('section', css`
 `)
 ```
 
-But that's **booooring**. Normal string concatenation will do that, and we are _way_ beyond normal. Instead of replacing simple _values_, let's replace whole `Rule`s:
+But that's **booooring**. Normal string concatenation will do that, and we are _waaaaay_ beyond normal. Instead of replacing simple _values_, let's replace whole `Rule`s:
 
 ```js
-import { backgrounds, colors, margins } from './styles'
+import { backgrounds, margins } from './styles'
 
 const Outer = elem('section', css`
   ${backgrounds.light}
-  ${colors.dark}
+  color: peru;
   ${margins.large}
 `)
 ```
 
-That's right. Instead of using a template string to convert _to_ a string, we're parsing the string parts into `Rule`s and combining them with our normal, JS-land stuff. This let's us do some rad stuff:
+That's right. Instead of using a template string to convert _to_ a string, we're parsing the string parts into `Rule`s and combining them with our normal, JS-land stuff with `concat`. This let's us do some rad stuff:
 
 ```js
 const bottomBorderOnHover = css`
@@ -309,14 +309,14 @@ const Nav = elem('nav', css`
 )
 ```
 
-![](https://66.media.tumblr.com/2d03084d38cf9ab4777427cfa111c0c1/tumblr_nmcdmkBK6y1tad71co1_400.gif)
-
-Note that we're jumping between all of these:
-* simple JS `Rule`s — `borderBottom`
+Note that we're jumping between all of these seamlessly:
+* simple JS `Rule`s — `borderBottom('1px solid')`
 * complex JS traits — `flex('align-center space-around')`
-* Nested CSS selectors — `> *`
-* Sass-like pseudo-selector declarations — `&:hover`
-* And being able to refactor chunks of style into a `RuleSet` — `bottomBorderOnHover`
+* Nested CSS selectors — `> * {}`
+* Sass-like pseudo-selector declarations — `&:hover {}`
+* Refactor chunks of style into a `RuleSet` using `css` — `bottomBorderOnHover`
+
+![](https://66.media.tumblr.com/2d03084d38cf9ab4777427cfa111c0c1/tumblr_nmcdmkBK6y1tad71co1_400.gif)
 
 And yet it works! See [TweetDisplay](src/TweetDisplay.js) and [FooterActions](src/FooterActions.js) for examples, then see it running at [css-components-demo.surge.sh/](https://css-components-demo.surge.sh/) (media queries work btw)
 
@@ -433,12 +433,12 @@ I have a gut feel that there _is_ a good solution out there, but I haven't found
 
 There's just heaps of stuff in here that's not ready for real use yet. Such as:
 
-[] At the moment I'm just parsing the CSS line-by-line. Obviously we'd need a real lexer (we may have to write one, since the way the interpolations interplay with the literal strings is... complicated).
-[] There are two types of descendant selectors implemented, those that start with a `&` and those that don't. I used `&` because it's familiar from Sass but there are a lot of use cases we'd need to cover, and Aphrodite is hard enough to deal with already. Speaking of...
-[] Get rid of Aphrodite. Everything I've talked about is about the Problem Existing Between Keyboard And Chair of styling — i.e. the Developer Experience. How can we make styling easier to write, combine, refactor, port, maintain, publish, etc. There are some great things in Aphrodite, but the real JS Styling solution is going to need all the stuff in https://github.com/css-components/spec. I'm hoping nothing I've proposed prevents us from doing so.
-[] Performance, server-side rendering, etc. I'm not sure on the implications of my `Element` component wrapper yet. But if there's some fancy stuff to be done, like generating styles on `componentWillMount` and caching them or something, `Element` seems like a good place to put all that logic. That way, if we get it right, everyone wins without caring about the internals. Party times.
-[] API decisions. I don't mind `elem`, I quite like `css`, as names. `rules` and the way you have to deconstruct them is a pain. Maybe a babel plugin would help? Though tbh it's so easy to use `css` for anything literal and keep `rules` for when you're building higher-order-styling components. But `traits` API, etc, all up for grabs.
-[] Many more things.
+- [ ] At the moment I'm just parsing the CSS line-by-line. Obviously we'd need a real lexer (we may have to write one, since the way the interpolations interplay with the literal strings is... complicated).
+- [ ] There are two types of descendant selectors implemented, those that start with a `&` and those that don't. I used `&` because it's familiar from Sass but there are a lot of use cases we'd need to cover, and Aphrodite is hard enough to deal with already. Speaking of...
+- [ ] Get rid of Aphrodite. Everything I've talked about is about the Problem Existing Between Keyboard And Chair of styling — i.e. the Developer Experience. How can we make styling easier to write, combine, refactor, port, maintain, publish, etc. There are some great things in Aphrodite, but the real JS Styling solution is going to need all the stuff in https://github.com/css-components/spec. I'm hoping nothing I've proposed prevents us from doing so.
+- [ ] Performance, server-side rendering, etc. I'm not sure on the implications of my `Element` component wrapper yet. But if there's some fancy stuff to be done, like generating styles on `componentWillMount` and caching them or something, `Element` seems like a good place to put all that logic. That way, if we get it right, everyone wins without caring about the internals. Party times.
+- [ ] API decisions. I don't mind `elem`, I quite like `css`, as names. `rules` and the way you have to deconstruct them is a pain. Maybe a babel plugin would help? Though tbh it's so easy to use `css` for anything literal and keep `rules` for when you're building higher-order-styling components. But `traits` API, etc, all up for grabs.
+- [ ] Many more things. Oh so much.
 
 ---
 
