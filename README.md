@@ -336,7 +336,7 @@ export default ({children}) => (
 )
 ```
 
-I haven't done this. I don't want to try. But, in effect, it would _preface_ every rule in Bootstrap with the generated class name for `Root` (i.e. based off the hash of its contents):
+I haven't done this. I don't really want to try. But, if it worked, it would _preface every rule in Bootstrap_ with the generated class name for `Root` (i.e. based off the hash of its contents):
 
 ```css
 /* generated */
@@ -345,7 +345,9 @@ I haven't done this. I don't want to try. But, in effect, it would _preface_ eve
 ._abc3156 .lead {}
 ```
 
-This effectively _quarantines_ global CSS off into its own little space. I'm really interested to explore this.
+This effectively _quarantines_ global CSS off into its own little space. I'm really interested to explore whether this is possible/desirable.
+
+That's the general idea. And it's mostly just an idea right now.
 
 ## Conclusion
 
