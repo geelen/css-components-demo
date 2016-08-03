@@ -2,9 +2,9 @@
 
 I'm calling this idea **Styled Elements** for the moment but want something catchier. It's got a few weird ideas in it, so bear with me.
 
-## Weird Idea #1 — Returning Elements
+## Weird Idea #1 — Generating Elements
 
-Only a HTML element can actually be _rendered_ to the DOM, and thus only a _real element_ can have styling. And, since tags often have their own styles, choosing a tag is partly a styling concern. So, I propose:
+Only a HTML element can actually be _rendered_ to the DOM, and thus only a _real HTML element_ can have styling. So, instead of using generic property-passing techniques like `className={x}` or `{...x}` (which work great for components), I propose something much more intertwined:
 
 ```jsx
 import { elem } from 'styled-elem'
@@ -33,11 +33,11 @@ export default (props) => (
 
 But to me, the separation of **STRUCTURE** and **STYLE** is better served by wrapping up the Element and the Style into a... wait for it... *Styled Element*.
 
-Default tag is currently 'div', and I've thought about declaring aliases like `elem.section` and `elem.span`, but didn't really need it building the demo. The current implementation is in [Element.js](blob/master/src/styled-elem/models/Element.js) and is pretty simple. But it works well!
+Default tag is currently 'div', and I've thought about declaring aliases like `elem.section` and `elem.span`, but didn't really need it building the demo. The current implementation is in [Element.js](src/styled-elem/models/Element.js) and is pretty simple. But it works well for now!
 
 ## Weird Idea #2 — Modelling CSS Fragments
 
-As far as I've seen, every CSS-in-JS approach opts for simple, maybe-nested JS objects — sticking pretty close to the realities of working with inline styles. I don't think that's good enough to really make _styling code_ (which is how I think about this approach) as malleable as I want. So instead of doing something like this:
+As far as I've seen, every CSS-in-JS approach opts for simple (maybe-nested) JS objects — sticking pretty close to the realities of working with inline styles. I don't think that's good enough to really make _styling code_ (which is how I think about this approach) as malleable as I want. So instead of doing something like this:
 
 ```js
 const styles = {
@@ -47,7 +47,7 @@ const styles = {
 }
 ```
 
-I decided to go with a real [Rule](/blob/master/src/styled-elem/models/Rule.js) and [RuleSet](/blob/master/src/styled-elem/models/RuleSet.js) class, with a ton of helper methods for constructing them:
+I decided to go with a real [Rule](/src/styled-elem/models/Rule.js) and [RuleSet](/src/styled-elem/models/RuleSet.js) class, with a ton of helper methods for constructing them:
 
 ```js
 import { concat, rules } from 'styled-elem'
@@ -111,7 +111,7 @@ const Outer = elem('section',
 
 ## Weird Idea #3 - Higher-Order Styles
 
-Since you can fluidly generate & combine these styling fragments, you can start to encode more advanced concepts **as first-order elements of your design system**. I've built a few around the idea of a [`trait`](/blob/master/src/styled-elem/constructors/trait.js):
+Since you can fluidly generate & combine these styling fragments, you can start to encode more advanced concepts **as first-order elements of your design system**. I've built a few around the idea of a [`trait`](/src/styled-elem/constructors/trait.js):
 
 ```js
 /* Shared file */
@@ -167,7 +167,7 @@ export const typography = trait('typography', {
 // typography('24pt light') => {font-weight: 500, font-size: 1.5rem;}
 ```
 
-In fact, that became [common enough in my usage](/blob/master/src/styled-elem/styles.js) that I ended up simplifying to:
+In fact, that became [common enough in my usage](/src/styled-elem/styles.js) that I ended up simplifying to:
 
 ```js
 import { rules } from 'styled-elem'
