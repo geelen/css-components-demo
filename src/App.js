@@ -15,7 +15,7 @@ const Main = elem('main', css`
   ${typography('sans')}
   max-width: 400px;
   margin: 0 auto;
-  ${media('min-width: 600px)', css`
+  ${media('min-width: 600px', css`
     max-width: 600px;
   `)}
 `)

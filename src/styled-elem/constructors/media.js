@@ -1,10 +1,6 @@
-import rule from "./rule"
 import concat from "./concat"
+import MediaQuery from "../models/MediaQuery";
 
 export default (query, ...rules) => {
-  /* Only support simple */
-  console.log("MEDIA")
-  console.log(rules)
-  console.log(rule(`@media (${query})`, concat(rules).rules))
-  return rule(`@media (${query})`, concat(rules).rules)
+  return new MediaQuery(query, concat(...rules))
 }

@@ -1,5 +1,8 @@
-export default class MediaQuery {
+import ValidRuleSetChild from "./ValidRuleSetChild";
+
+export default class MediaQuery extends ValidRuleSetChild {
   constructor(query, ruleSet) {
+    super()
     this.query = query
     this.ruleSet = ruleSet
   }
@@ -8,7 +11,7 @@ export default class MediaQuery {
   fullQuery() {
     return '@media ' + /^\(.*\)$/.exec(this.query) ? this.query : `(${this.query})`
   }
-  
+
   /* No nesting! */
   flatten() {
     const { rules, fragments } = this.ruleSet.flatten()
