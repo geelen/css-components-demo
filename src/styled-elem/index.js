@@ -1,6 +1,5 @@
 import Element from './models/Element'
-import RuleSet from './models/RuleSet'
-import NestedSelector from './models/NestedSelector'
+import Root from "./models/Root";
 
 /* Wrap the base functions in objects and export*/
 import * as rules from './rules'
@@ -16,7 +15,8 @@ import trait from './constructors/trait'
 import media from './constructors/media'
 import nested from './constructors/nested'
 
-/* Lower-case constructor helper functions */
+/* Two main entry points */
 const elem = Element
+const generateClassnames = (...rules) => new Root(...rules).injectStyles()
 
 export { elem, rule, rules, units, nested, concat, css, simple, toggle, trait, media }
