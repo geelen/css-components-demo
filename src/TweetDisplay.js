@@ -1,6 +1,6 @@
 import React from 'react'
-import { elem, css, rules, units } from './styled-elem'
-import { flex, typography, borders, grey } from './styles'
+import {elem, css, rules, units} from './styled-elem'
+import {flex, typography, borders, grey} from './styles'
 
 const Outer = elem(css`
   padding: 0 .6rem;

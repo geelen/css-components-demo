@@ -10,8 +10,9 @@ export default class Fragment {
     this.rulesOrSubFragments = rulesOrSubFragments
   }
 
-  push(ruleOrSubFragment) {
+  add(ruleOrSubFragment) {
     this.rulesOrSubFragments.push(ruleOrSubFragment)
+    return this
   }
 
   injectStyles(context = null) {
@@ -30,7 +31,6 @@ export default class Fragment {
     const styles = rules.reduce((set, r) => set.merge(r), new RuleSet()).rules
     if (!context) {
       /* We are the top level Fragment, proceed as normal */
-      console.log(styles)
       const className = css({
         _name: this.key+'_'+hashObject(styles),
         _definition: styles

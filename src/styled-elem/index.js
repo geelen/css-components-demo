@@ -17,5 +17,6 @@ import rule from './constructors/rule'
 import simple from './constructors/simple'
 import toggle from './constructors/toggle'
 import trait from './constructors/trait'
+import media from './constructors/media'
 
-export { elem, rule, rules, units, fragment, nested, concat, css, simple, toggle, trait }
+export { elem, rule, rules, units, nested, concat, css, simple, toggle, trait, media }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { elem, css } from './styled-elem'
+import { elem, css, media } from './styled-elem'
 import { minHeight } from './styled-elem/rules'
 import { vh } from './styled-elem/units'
 import { backgrounds, typography } from './styles'
@@ -16,6 +16,9 @@ const Main = elem('main', css`
   ${typography('sans')}
   max-width: 400px;
   margin: 0 auto;
+  ${media('min-width: 600px)', css`
+    max-width: 600px;
+  `)}
 `)
 
 export default () =>

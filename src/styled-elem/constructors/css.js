@@ -9,6 +9,7 @@ const startNesting = /^\s*([\w\.:&>][^{]+)\{\s*$/
 const stopNesting = /^\s*}\s*$/
 
 export default (strings, ...interpolations) => {
+  return new RuleSet()
   let currentFragment = new Fragment(null)
   const stack = [currentFragment]
   const linesAndInterpolations = strings[0].split('\n')
@@ -47,7 +48,7 @@ export default (strings, ...interpolations) => {
     } else if (property && value) {
       const newRule = rule(camelize(property), value)
       console.log(newRule)
-      currentFragment.push(newRule)
+      currentFragment.add(newRule)
     } else if (popNesting) {
       stack.pop()
       currentFragment = stack[stack.length - 1]
@@ -59,7 +60,7 @@ export default (strings, ...interpolations) => {
     if (typeof lineOrInterp === 'string') {
       processLine(lineOrInterp)
     } else if (lineOrInterp instanceof Fragment || lineOrInterp instanceof RuleSet) {
-      currentFragment.push(lineOrInterp)
+      currentFragment.add(lineOrInterp)
     }
   }
 

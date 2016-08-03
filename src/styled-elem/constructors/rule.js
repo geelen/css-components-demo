@@ -1,3 +1,3 @@
-import RuleSet from "../models/RuleSet"
+import Rule from "../models/Rule"
 
-export default (property, value) => new RuleSet({[property]: value})
+export default (property, value) => new Rule(property, value)
