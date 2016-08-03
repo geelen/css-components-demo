@@ -62,7 +62,7 @@ const styles = concat(
 The advantage is how fluid these objects are. You can deconstruct `rules`:
 
 ```js
-import { concat, rules } from 'styled-elem'
+import { concat, elem, rules } from 'styled-elem'
 const { background, color, margin } = rules
 
 const styles = concat(
@@ -82,7 +82,7 @@ const Outer = elem('section',
 ...though that tends to be more trouble than it's worth. What's much better is when you **abstract the common rules away**:
 
 ```js
-import { concat } from 'styled-elem'
+import { elem } from 'styled-elem'
 import { backgrounds, colors, margins } from './styles'
 
 const Outer = elem('section',
