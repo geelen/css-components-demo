@@ -36,7 +36,6 @@ const interleave = (strings, interpolations) => {
       linesAndInterpolations.push(...(lastStr + interp + (strings[i + 1] || '')).split('\n'))
     }
   })
-  console.log(linesAndInterpolations)
   return linesAndInterpolations;
 }
 

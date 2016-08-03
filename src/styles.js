@@ -1,4 +1,4 @@
-import { trait, rule, rules, concat } from './styled-elem'
+import { trait, rule, rules, concat, css } from './styled-elem'
 const {flexDirection, fontWeight, alignItems, justifyContent, background, color, display, fontFamily, fontFeatureSettings, lineHeight, fontSize, textTransform } = rules
 
 export const lightGrey = '#e1e8ed'
@@ -108,3 +108,10 @@ export const typography = trait('typography', {
     default: null
   }
 })
+
+export const greyThenBlueOnHover = css`
+  color: ${grey};
+  &:hover {
+    color: ${blue};
+  }
+`

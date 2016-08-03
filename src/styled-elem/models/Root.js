@@ -23,7 +23,6 @@ const injectCss = (_name, _definition, _fragments) => {
   const className = aphroditeInjectCss({ _name, _definition })
   _fragments.forEach(({ selector, rules, fragments }) => {
     joinSelectors(_name, selector).forEach(sub => {
-      console.log(JSON.stringify({_name, selector, sub}))
       injectCss(sub, rules, fragments)
     })
   })

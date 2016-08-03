@@ -188,7 +188,7 @@ export const typography = trait('typography', {
 })
 ```
 
-I might `default: null` implicit, not sure yet. Maybe a `trait` is a special case of a `namespace` higher-order-style property, I don't know yet. But this is neat so far.
+I might make `default: null` implicit, not sure yet. Maybe a `trait` is a special case of a `namespace` higher-order-style property, I don't know yet. But this is neat so far.
 
 ## Weird Idea #4 — Support all of CSS
 
@@ -296,7 +296,7 @@ That's right. Instead of using a template string to convert _to_ a string, we're
 ```js
 const bottomBorderOnHover = css`
   &:hover {
-    borderBottom('1px solid')
+    ${borderBottom('1px solid')}
   )
 `
 
@@ -311,4 +311,137 @@ const Nav = elem('nav', css`
 
 ![](https://66.media.tumblr.com/2d03084d38cf9ab4777427cfa111c0c1/tumblr_nmcdmkBK6y1tad71co1_400.gif)
 
-Because we have a solid base of _style fragments_ (represented by a `RuleSet`) we can 
+Note that we're jumping between all of these:
+* simple JS `Rule`s — `borderBottom`
+* complex JS traits — `flex('align-center space-around')`
+* Nested CSS selectors — `> *`
+* Sass-like pseudo-selector declarations — `&:hover`
+* And being able to refactor chunks of style into a `RuleSet` — `bottomBorderOnHover`
+
+And yet it works! See [TweetDisplay](src/TweetDisplay.js) and [FooterActions](src/FooterActions.js) for examples, then see it running at [css-components-demo.surge.sh/](https://css-components-demo.surge.sh/) (media queries work btw)
+
+Because we have a solid base of _style fragments_ (represented by a `RuleSet`) we can basically do what we like. Which is great, because it means that _converting_ a project to use _Styled Elements_ (I really need a better name) might be really possible:
+
+```js
+import bootstrap from 'bootstrap'
+
+const Root = elem(`css
+	${bootstrap}
+`)
+
+export default ({children}) => (
+  <Root>
+    {children}
+  </Root>
+)
+```
+
+I haven't done this. I don't want to try. But, in effect, it would _preface_ every rule in Bootstrap with the generated class name for `Root` (i.e. based off the hash of its contents):
+
+```css
+/* generated */
+._abc3156 h1 {}
+._abc3156 .jumbotron {}
+._abc3156 .lead {}
+```
+
+This effectively _quarantines_ global CSS off into its own little space. I'm really interested to explore this.
+
+## Conclusion
+
+So that's where I'm at. It just lives here, in this repo, and it's _really_ simply implemented. The list of things we would need to solve is _huge_:
+
+### Dynamism
+
+At the moment I've got no dynamic styles, nothing adding or removing depending on state. There are a lot of potential ways to do this, but nothing is grabbing me, yet. This is maybe the best way off the top of my head:
+
+```js
+const LikeButton = elem(css`
+  color: ${grey};
+  > svg {
+    width: 30px;
+    height: auto;
+  }
+`).when('clicked', css`
+  color: ${red};
+`)
+
+export default ({state}) => (
+	<LikeButton clicked={state.isClicked}>
+	  <img src="..."/>
+  </LikeButton>
+)
+```
+
+But I haven't really thought it through. I do like the way that it uses the Element's API to pass properties, just the way you would a more complex component, and it does give an extra reason to use the `elem` constructor instead of manually setting the `className` property on normal React.DOM elements.
+
+Right now, you could use `data-*` attrs or even global classes like `-is-clicked` to do the same thing.(`Element` will merge `className` at the call site with those that are generated):
+
+```js
+const LikeButton = elem(css`
+  /* same as before */
+  &[data-clicked] {
+	  color: ${red};
+  }
+  /* or */
+  &.-is-clicked {
+    color: ${red};
+  }
+`)
+
+export default ({state}) => (
+	<LikeButton data-clicked={state.isClicked}
+	  /* or: */ className={state.isClicked ? '-is-clicked' : ''}>
+	  <img src="..."/>
+  </LikeButton>
+)
+```
+
+But I think there might be a better, more natural way to express conditional styles.
+
+### Theming
+
+Ok so this is the BIG big one. I feel like this is a solid porting of CSS information to a native JS structure, but unless than _enables_ something really powerful (like a solid solution to the idea of theming) then I don't know if it's really worth it. You may as well stick with CSS and wait for Custom Properties to land. Or rather, wait for Microsoft to land Custom Properties 😜
+
+BUT DREAM WITH ME, friends. We could do something pretty straightforward like:
+
+```js
+const LikeButton = elem(theme => css`
+  background: ${theme.bg || 'white'};
+  color: ${theme.fg || 'black'};
+  ${theme.define({fg: 'red'})} /* change theme as it is passed down to children */
+`)
+```
+
+The element that it generates could then use React's `context` to pull a `theme` object out without needing to pass it down the whole tree. Or we could go crazy like:
+
+```js
+const LikeButton = elem(css`
+  background: var(--bg, white);
+  color: var(--fg, black);
+  ${define(css`
+	  --fg: red; /* passed to children of this element */
+  `)}
+`)
+```
+
+Because we're parsing the CSS, we could parse out the usage of variables, then combine that with the `context` trick above, we'd have a _pretty_ good approximation of true CSS variables. But we'd definitely have incompatibilities with the real syntax which might cause more confusion than it's worth.
+
+I have a gut feel that there _is_ a good solution out there, but I haven't found it yet.
+
+### Completion
+
+There's just heaps of stuff in here that's not ready for real use yet. Such as:
+
+[] At the moment I'm just parsing the CSS line-by-line. Obviously we'd need a real lexer (we may have to write one, since the way the interpolations interplay with the literal strings is... complicated).
+[] There are two types of descendant selectors implemented, those that start with a `&` and those that don't. I used `&` because it's familiar from Sass but there are a lot of use cases we'd need to cover, and Aphrodite is hard enough to deal with already. Speaking of...
+[] Get rid of Aphrodite. Everything I've talked about is about the Problem Existing Between Keyboard And Chair of styling — i.e. the Developer Experience. How can we make styling easier to write, combine, refactor, port, maintain, publish, etc. There are some great things in Aphrodite, but the real JS Styling solution is going to need all the stuff in https://github.com/css-components/spec. I'm hoping nothing I've proposed prevents us from doing so.
+[] Performance, server-side rendering, etc. I'm not sure on the implications of my `Element` component wrapper yet. But if there's some fancy stuff to be done, like generating styles on `componentWillMount` and caching them or something, `Element` seems like a good place to put all that logic. That way, if we get it right, everyone wins without caring about the internals. Party times.
+[] API decisions. I don't mind `elem`, I quite like `css`, as names. `rules` and the way you have to deconstruct them is a pain. Maybe a babel plugin would help? Though tbh it's so easy to use `css` for anything literal and keep `rules` for when you're building higher-order-styling components. But `traits` API, etc, all up for grabs.
+[] Many more things.
+
+---
+
+Anyway, this _feels_ like a good first step in terms of developer experience (at least for me, the way I write CSS) so... yay?
+
+<3
