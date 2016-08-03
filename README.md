@@ -369,8 +369,8 @@ const LikeButton = elem(css`
 `)
 
 export default ({state}) => (
-	<LikeButton clicked={state.isClicked}>
-	  <img src="..."/>
+  <LikeButton clicked={state.isClicked}>
+    <img src="..."/>
   </LikeButton>
 )
 ```
@@ -385,16 +385,15 @@ const LikeButton = elem(css`
   &[data-clicked] {
 	  color: ${red};
   }
-  /* or */
   &.-is-clicked {
     color: ${red};
   }
 `)
 
 export default ({state}) => (
-	<LikeButton data-clicked={state.isClicked}
+  <LikeButton data-clicked={state.isClicked}
 	            className={state.isClicked ? '-is-clicked' : ''}>
-	  <img src="..."/>
+    <img src="..."/>
   </LikeButton>
 )
 ```
