@@ -351,7 +351,7 @@ That's the general idea. And it's mostly just an idea right now.
 
 ## Conclusion
 
-So that's where I'm at. It just lives here, in this repo, and it's _really_ simply implemented. The list of things we would need to solve is _huge_:
+So that's where I'm at. The code is all here in this repo (not on NPM yet), and it's _really_ simply implemented. The list of things we would need to solve is _huge_:
 
 ### Dynamism
 
@@ -381,7 +381,7 @@ Right now, you could use `data-*` attrs or even global classes like `-is-clicked
 
 ```js
 const LikeButton = elem(css`
-  /* same as before */
+  /* both these will work */
   &[data-clicked] {
 	  color: ${red};
   }
@@ -393,7 +393,7 @@ const LikeButton = elem(css`
 
 export default ({state}) => (
 	<LikeButton data-clicked={state.isClicked}
-	  /* or: */ className={state.isClicked ? '-is-clicked' : ''}>
+	            className={state.isClicked ? '-is-clicked' : ''}>
 	  <img src="..."/>
   </LikeButton>
 )
