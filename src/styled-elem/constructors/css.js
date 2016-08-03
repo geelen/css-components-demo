@@ -32,10 +32,11 @@ const interleave = (strings, interpolations) => {
       if (strings[i + 1]) linesAndInterpolations.push(...strings[i + 1].split('\n'))
     } else {
       /* Simple (value) interpolation. Concatenate and move on. */
-      const lastStrIndex = linesAndInterpolations.length - 1
-      linesAndInterpolations[lastStrIndex] = linesAndInterpolations[lastStrIndex] + interp + (strings[i + 1] || '')
+      const lastStr = linesAndInterpolations.pop()
+      linesAndInterpolations.push(...(lastStr + interp + (strings[i + 1] || '')).split('\n'))
     }
   })
+  console.log(linesAndInterpolations)
   return linesAndInterpolations;
 }
 

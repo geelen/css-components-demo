@@ -1,6 +1,7 @@
 import React from 'react'
 import {elem, css, rules, units} from './styled-elem'
 import {flex, typography, borders, grey} from './styles'
+import FooterActions from './FooterActions'
 
 const Outer = elem(css`
   padding: 0 .6rem;
@@ -71,7 +72,7 @@ const TootCount = elem(css`
   }
 `)
 
-export default () =>
+export default () => (
   <Outer>
     <Header>
       <Profile>
@@ -95,4 +96,6 @@ export default () =>
       32 <small>retweets</small>
       79 <small>likes</small>
     </TootCount>
+    <FooterActions/>
   </Outer>
+)

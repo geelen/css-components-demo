@@ -72,8 +72,6 @@ export const flex = trait('flex', {
     'align-stretch': alignItems('stretch'),
     default: null
   }
-}, ({display, direction, justify}) => {
-  return concat(display, direction, justify)
 })
 
 export const typography = trait('typography', {
