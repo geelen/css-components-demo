@@ -1,6 +1,5 @@
 import camelize from 'fbjs/lib/camelizeStyleName'
 
-import Fragment from "../models/Fragment"
 import rule from "./rule"
 import RuleSet from "../models/RuleSet";
 import NestedSelector from "../models/NestedSelector";
