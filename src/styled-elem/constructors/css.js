@@ -4,6 +4,7 @@ import Fragment from "../models/Fragment"
 import rule from "./rule"
 import RuleSet from "../models/RuleSet";
 import NestedSelector from "../models/NestedSelector";
+import ValidRuleSetChild from "../models/ValidRuleSetChild";
 
 const declaration = /^\s*([\w-]+):\s+([^;]*);\s*$/
 const startNesting = /^\s*([\w\.:&>][^{]+)\{\s*$/
@@ -26,7 +27,7 @@ const interleave = (strings, interpolations) => {
   const linesAndInterpolations = strings[0].split('\n')
   interpolations.forEach((interp, i) => {
     /* Complex, Rule-based interpolation (could be multi-line, or nesting etc) */
-    if (interp instanceof Fragment || interp instanceof RuleSet) {
+    if (interp instanceof ValidRuleSetChild) {
       linesAndInterpolations.push(interp)
       if (strings[i + 1]) linesAndInterpolations.push(...strings[i + 1].split('\n'))
     } else {
@@ -42,7 +43,7 @@ export default (strings, ...interpolations) => {
   /* A data structure we can use to traverse the CSS */
   let currentLevel = {
     parent: null,
-    rules: new RuleSet()
+    ruleSet: new RuleSet()
   }
   var linesAndInterpolations = interleave(strings, interpolations);
 
@@ -50,23 +51,21 @@ export default (strings, ...interpolations) => {
     const [_, subSelector] = startNesting.exec(line) || []
     const [__, property, value] = declaration.exec(line) || []
     const popNesting = stopNesting.exec(line)
-    console.log({subSelector, property, value})
 
     /* ARE WE STARTING A NESTING? */
     if (subSelector) {
       const subRules = new RuleSet()
       const nesting = new NestedSelector(subSelector, subRules)
-      currentLevel.rules.add(nesting)
+      currentLevel.ruleSet.add(nesting)
       currentLevel = {
         parent: currentLevel,
-        rules: subRules
+        ruleSet: subRules
       }
 
       /* ARE WE A NORMAL RULE? */
     } else if (property && value) {
       const newRule = rule(camelize(property), value)
-      console.log(newRule)
-      currentLevel.rules.add(newRule)
+      currentLevel.ruleSet.add(newRule)
     } else if (popNesting) {
       currentLevel = currentLevel.parent
     }
@@ -75,12 +74,13 @@ export default (strings, ...interpolations) => {
   const processLineOrInterp = lineOrInterp => {
     if (typeof lineOrInterp === 'string') {
       processLine(lineOrInterp)
+    } else if (lineOrInterp instanceof ValidRuleSetChild) {
+      currentLevel.ruleSet.add(lineOrInterp)
     } else {
-      currentLevel.rules.add(lineOrInterp)
+      console.warn("I don't know what to do with this:", lineOrInterp)
     }
   }
 
   linesAndInterpolations.forEach(processLineOrInterp)
-  console.log(currentLevel)
-  return currentLevel.rules
+  return currentLevel.ruleSet
 }

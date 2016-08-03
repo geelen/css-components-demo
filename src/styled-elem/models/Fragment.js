@@ -28,7 +28,7 @@ export default class Fragment {
 
     const rules = all.filter(r => r instanceof RuleSet)
     const fragments = all.filter(f => f instanceof Fragment)
-    const styles = rules.reduce((set, r) => set.merge(r), new RuleSet()).rules
+    const styles = rules.reduce((set, r) => set.merge(r), new RuleSet()).ruleSet
     if (!context) {
       /* We are the top level Fragment, proceed as normal */
       const className = css({

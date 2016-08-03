@@ -8,14 +8,15 @@ const ensureTagThenStyles = list =>
 
 const Element = (...properties) => {
   const [tagName, ...rules] = ensureTagThenStyles(properties)
-  const outerFragment = new Root(...rules)
+  const styleRoot = new Root(...rules)
   /* Don't generate the styles now, only on render */
   let className
 
   /* Return a stateless functional component that simply renders
   * a HTML element with our styles applied. */
   return props => {
-    if (!className) className = outerFragment.injectStyles()
+    console.log({tagName, styles: styleRoot.ruleSet.flatten()})
+    if (!className) className = styleRoot.injectStyles()
     return createElement(tagName, Object.assign({}, props, {
       className: [props.className, className].join(' ')
     }))

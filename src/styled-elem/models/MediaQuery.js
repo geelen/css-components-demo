@@ -9,13 +9,13 @@ export default class MediaQuery extends ValidRuleSetChild {
 
   /* Wrap the media query in brackets if needed. */
   fullQuery() {
-    return '@media ' + /^\(.*\)$/.exec(this.query) ? this.query : `(${this.query})`
+    return '@media ' + (/^\(.*\)$/.exec(this.query) ? this.query : `(${this.query})`)
   }
 
   /* No nesting! */
   flatten() {
     const { rules, fragments } = this.ruleSet.flatten()
-    if (fragments) console.error("Fragments aren't supported in Media Queries yet")
+    if (fragments.length > 0) console.error("Fragments aren't supported in Media Queries yet")
     return rules
   }
 }

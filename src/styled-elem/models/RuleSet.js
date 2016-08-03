@@ -2,12 +2,13 @@ import Rule from "./Rule"
 import MediaQuery from "./MediaQuery"
 import NestedSelector from "./NestedSelector";
 import ValidRuleSetChild from "./ValidRuleSetChild";
+
 /*
 * A RuleSet stores the leaf nodes that apply to some level
 * of a styling tree, as well as any other children (fragments).
 * Use concat() to create one easily.
 * */
-export default class RuleSet {
+export default class RuleSet extends ValidRuleSetChild {
   rules = []
 
   add(...other) {

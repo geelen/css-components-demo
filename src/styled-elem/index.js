@@ -14,9 +14,9 @@ import simple from './constructors/simple'
 import toggle from './constructors/toggle'
 import trait from './constructors/trait'
 import media from './constructors/media'
+import nested from './constructors/nested'
 
 /* Lower-case constructor helper functions */
 const elem = Element
-const nested = (selector, ...rules) => new NestedSelector(selector, concat(...rules))
 
 export { elem, rule, rules, units, nested, concat, css, simple, toggle, trait, media }
