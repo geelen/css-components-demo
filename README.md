@@ -318,7 +318,7 @@ Note that we're jumping between all of these seamlessly:
 
 ![](https://66.media.tumblr.com/2d03084d38cf9ab4777427cfa111c0c1/tumblr_nmcdmkBK6y1tad71co1_400.gif)
 
-And yet it works! See [TweetDisplay](src/TweetDisplay.js) and [FooterActions](src/FooterActions.js) for examples, then see it running at [css-components-demo.surge.sh/](https://css-components-demo.surge.sh/) (media queries work btw)
+And yet it works! See [TweetDisplay](src/TweetDisplay.js) and [FooterActions](src/FooterActions.js) for the most complex usages I've worked on so far, then see it running at [css-components-demo.surge.sh/](https://css-components-demo.surge.sh/) (media queries work btw)
 
 Because we have a solid base of _style fragments_ (represented by a `RuleSet`) we can basically do what we like. Which is great, because it means that _converting_ a project to use _Styled Elements_ (I really need a better name) might be really possible:
 
@@ -331,7 +331,7 @@ const Root = elem(`css
 
 export default ({children}) => (
   <Root>
-    {children}
+    {children} // All bootstrap styling will apply here
   </Root>
 )
 ```
