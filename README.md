@@ -402,7 +402,7 @@ But I think there might be a better, more natural way to express conditional sty
 
 ### Theming
 
-Ok so this is the BIG big one. I feel like this is a solid porting of CSS information to a native JS structure, but unless than _enables_ something really powerful (like a solid solution to the idea of theming) then I don't know if it's really worth it. You may as well stick with CSS and wait for Custom Properties to land. Or rather, wait for Microsoft to land Custom Properties 😜
+Ok so this is the BIG big one. I feel like what I've got so far is a solid porting of CSS information to a native JS structure, but unless than _enables something really powerful_ (like a solid solution to the idea of theming) then I don't know if it's really worth it. You may as well stick with CSS and wait for Custom Properties to land. Or rather, wait for Microsoft to land Custom Properties 😜
 
 BUT DREAM WITH ME, friends. We could do something pretty straightforward like:
 
@@ -428,15 +428,15 @@ const LikeButton = elem(css`
 
 Because we're parsing the CSS, we could parse out the usage of variables, then combine that with the `context` trick above, we'd have a _pretty_ good approximation of true CSS variables. But we'd definitely have incompatibilities with the real syntax which might cause more confusion than it's worth.
 
-I have a gut feel that there _is_ a good solution out there, but I haven't found it yet.
+I have a gut feel that there _is_ a good solution out there, but I haven't found it yet. It probably uses React's context, because I _really_ like React's context.
 
 ### Completion
 
 There's just heaps of stuff in here that's not ready for real use yet. Such as:
 
-- [ ] At the moment I'm just parsing the CSS line-by-line. Obviously we'd need a real lexer (we may have to write one, since the way the interpolations interplay with the literal strings is... complicated).
-- [ ] There are two types of descendant selectors implemented, those that start with a `&` and those that don't. I used `&` because it's familiar from Sass but there are a lot of use cases we'd need to cover, and Aphrodite is hard enough to deal with already. Speaking of...
-- [ ] Get rid of Aphrodite. Everything I've talked about is about the Problem Existing Between Keyboard And Chair of styling — i.e. the Developer Experience. How can we make styling easier to write, combine, refactor, port, maintain, publish, etc. There are some great things in Aphrodite, but the real JS Styling solution is going to need all the stuff in https://github.com/css-components/spec. I'm hoping nothing I've proposed prevents us from doing so.
+- [ ] At the moment I'm just parsing the CSS line-by-line. Obviously we'd need a real lexer (we may have to write our own, since the way the interpolations interplay with the literal strings is... complicated).
+- [ ] There are two types of descendant selectors implemented, those that start with a `&` and those that don't. I used `&` because it's familiar from Sass but there are a lot of use cases we'd need to cover (e.g. `html.feature-flag & {}`), and Aphrodite is hard enough to deal with already. Speaking of...
+- [ ] Build a proper CSS injection tool instead of butchering Aphrodite (poor Aphrodite!). Everything I've talked about is about the Problem Existing Between Keyboard And Chair of styling — i.e. the Developer Experience. How can we make styling easier to write, combine, refactor, port, maintain, publish, etc. There are some great things in Aphrodite, but the real JS Styling solution is going to need all the stuff in https://github.com/css-components/spec. I'm hoping nothing I've proposed prevents us from doing so.
 - [ ] Performance, server-side rendering, etc. I'm not sure on the implications of my `Element` component wrapper yet. But if there's some fancy stuff to be done, like generating styles on `componentWillMount` and caching them or something, `Element` seems like a good place to put all that logic. That way, if we get it right, everyone wins without caring about the internals. Party times.
 - [ ] API decisions. I don't mind `elem`, I quite like `css`, as names. `rules` and the way you have to deconstruct them is a pain. Maybe a babel plugin would help? Though tbh it's so easy to use `css` for anything literal and keep `rules` for when you're building higher-order-styling components. But `traits` API, etc, all up for grabs.
 - [ ] Many more things. Oh so much.
