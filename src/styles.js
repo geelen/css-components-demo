@@ -8,7 +8,8 @@ export const blue = '#1da1f2'
 export const red = '#e53636'
 
 export const backgrounds = {
-  white: background('white')
+  white: background('white'),
+  blue: background(blue)
 }
 
 export const borders = trait('borders', {

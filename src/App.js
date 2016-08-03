@@ -9,7 +9,10 @@ import TweetDisplay from './TweetDisplay'
 
 const App = elem(
   minHeight(vh(100)),
-  backgrounds.white
+  backgrounds.blue,
+  nested('#root > &',
+    backgrounds.white
+  )
 )
 const Main = elem('main', css`
   ${typography('sans')}
