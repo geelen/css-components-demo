@@ -134,10 +134,10 @@ export const typography = trait('typography', {
 
 /* Component file */
 const Title = elem('h1',
-  typography('20pt bold')
+  typography('24pt bold') // {font-weight: 500, font-size: 1.5rem;}
 )
 const Strapline = elem('h2',
-  typography('18pt light')
+  typography('18pt light') // {font-weight: 300, font-size: 1.125rem;}
 )
 ```
 
@@ -167,7 +167,7 @@ export const typography = trait('typography', {
 // typography('24pt light') => {font-weight: 500, font-size: 1.5rem;}
 ```
 
-In fact, that became [common enough in my usage](/src/styled-elem/styles.js) that I ended up simplifying to:
+In fact, that became [common enough in my usage](src/styles.js#L51) that I ended up making the default callback work like that. It works well:
 
 ```js
 import { rules } from 'styled-elem'
@@ -188,4 +188,127 @@ export const typography = trait('typography', {
 })
 ```
 
-I might `default: null` implicit, not sure yet. As it stands I do a bunch of param-checking on the values you pass in, which is nice, but I want to balance that with how easy these are to create for common styling concerns.
+I might `default: null` implicit, not sure yet. Maybe a `trait` is a special case of a `namespace` higher-order-style property, I don't know yet. But this is neat so far.
+
+## Weird Idea #4 — Support all of CSS
+
+...at least as much as possible. I'm happy to propose a new abstraction on top of CSS as long as **you can fall back to CSS when you need to**. I'm talking about tag selectors, pseudo-selectors, descendant selectors, media queries, etc. So, pseudo selectors:
+
+```js
+import { elem, rules, nested, psuedo } from 'styled-elem'
+import { flex } from './styles'
+const { flexGrow, borderBottom } = rules
+
+const Nav = elem('nav',
+  flex('align-center space-around'),
+  nested('> *',
+    flexGrow(1)
+    pseudo('hover',
+      borderBottom('1px solid')
+    )
+  )
+)
+```
+
+I had to butcher Aphrodite to get this going but it _is_ going! I'm a big fan of direct-descendant selectors, often you'll have a structure like:
+
+```jsx
+<ProfileImg>
+  <img src="..." alt="..."/>
+</ProfileImg>
+```
+
+I don't like to have to name _both_ the outer `div` (assuming you need it for layout purposes) and the inner `img`. I'd style it this like:
+
+```js
+import { elem, rules, nested } from 'styled-elem'
+
+const ProfileImg = elem(
+  rules.padding('0.5rem'),
+  rules.marginRight('0.5rem'),
+  nested('> img',
+    rules.height('100%'),
+    rules.width('auto')
+  )
+)
+```
+
+The good news is, as long as we're generating real CSS (no inline styles) with classnames (the way Aphrodite already does), we can do anything! Except, of course, generate fully-global CSS. But then just write CSS, obviously.
+
+So we do. `Rule`s can be nested at any level, there are [`NestedSelector`](src/styled-elem/models/NestedSelector.js) and [`MediaQuery`](src/styled-elem/models/MediaQuery.js) classes, and they can be nested inside `RuleSet`s and have their own `RuleSet`s within. It's objects all the way down.
+
+Why no `PseudoSelector` class, I hear you (maybe) ask? Well, read on!
+
+## Weird Idea #5 — Support Actual CSS 😱
+
+This is the big one. Credit has to go to [@charliesome](/charliesome) for this, too — I initially didn't quite get what he was saying, but I'm now 100% on board. Let's go back to the original example:
+
+```js
+import { elem, rules } from 'styled-elem'
+
+const Outer = elem('section',
+  background('papayawhip'),
+  color('peru'),
+  margin('4rem')
+)
+```
+
+This can instead be written as:
+
+```js
+import { elem, css } from 'styled-elem'
+
+const Outer = elem('section', css`
+  background: papayawhip;
+  color: peru;
+  margin: 4rem;
+`)
+```
+
+🎉 **TADA!** 🎉
+
+Not convinced? Well let's see what we can do. Can we do normal, dumb-as-a-post string concatenation? Of course!
+
+```js
+import { bgColor, fgColor, spacingSize } from './styles'
+
+const Outer = elem('section', css`
+  background: ${bgColor};
+  color: ${fgColor};
+  margin: ${bigSpacing};
+`)
+```
+
+But that's **booooring**. Normal string concatenation will do that, and we are _way_ beyond normal. Instead of replacing simple _values_, let's replace whole `Rule`s:
+
+```js
+import { backgrounds, colors, margins } from './styles'
+
+const Outer = elem('section', css`
+  ${backgrounds.light}
+  ${colors.dark}
+  ${margins.large}
+`)
+```
+
+That's right. Instead of using a template string to convert _to_ a string, we're parsing the string parts into `Rule`s and combining them with our normal, JS-land stuff. This let's us do some rad stuff:
+
+```js
+const bottomBorderOnHover = css`
+  &:hover {
+    borderBottom('1px solid')
+  )
+`
+
+const Nav = elem('nav', css`
+  ${flex('align-center space-around')}
+  > * {
+    flex-grow: 1;
+    ${bottomBorderOnHover}
+  )
+)
+```
+
+![](https://66.media.tumblr.com/2d03084d38cf9ab4777427cfa111c0c1/tumblr_nmcdmkBK6y1tad71co1_400.gif)
+
+Because we have a solid base of _style fragments_ (represented by a `RuleSet`) we can 

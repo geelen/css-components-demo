@@ -1,14 +1,23 @@
 import React from 'react'
 import { elem, css } from './styled-elem'
-import {borders, grey, flex} from "./styles";
+import {borders, grey, blue, flex} from "./styles";
+
+const blueOnHover = css`
+`
 
 const Footer = elem('footer', css`
   ${borders('top light')}
   ${flex('align-center space-around')}
+  margin-bottom: 1rem;
   height: 3.33rem;
   > svg {
-    fill: ${grey};
-    height: 30px;
+    fill: currentColor;
+    height: 3rem;
+    padding: 0.5rem 1rem;
+    color: ${grey};
+    &:hover {
+      color: ${blue};
+    }
   }
 `)
 

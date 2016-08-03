@@ -14,9 +14,13 @@ import toggle from './constructors/toggle'
 import trait from './constructors/trait'
 import media from './constructors/media'
 import nested from './constructors/nested'
+import pseudo from './constructors/pseudo'
 
 /* Two main entry points */
 const elem = Element
 const generateClassnames = (...rules) => new Root(...rules).injectStyles()
 
-export { elem, rule, rules, units, nested, concat, css, simple, toggle, trait, media }
+export {
+  elem, rule, rules, units, nested, concat,
+  css, simple, toggle, trait, media, pseudo
+}

@@ -22,12 +22,18 @@ export default class Root {
 const injectCss = (_name, _definition, _fragments) => {
   const className = aphroditeInjectCss({ _name, _definition })
   _fragments.forEach(({ selector, rules, fragments }) => {
-    injectCss(joinSelectors(_name, selector), rules, fragments)
+    joinSelectors(_name, selector).forEach(sub => {
+      console.log(JSON.stringify({_name, selector, sub}))
+      injectCss(sub, rules, fragments)
+    })
   })
   return className
 }
 
 const joinSelectors = (outer, inner) => {
-  /* For the moment, just support & at the beginning */
-  return `${outer}${inner.startsWith('&') ? inner.slice(1) : ' ' + inner}`
+  /* split on commas (really simplistically) */
+  return inner.split(/\s*,\s*/).map(subInner =>
+    /* For the moment, just support & at the beginning */
+    `${outer}${subInner.startsWith('&') ? subInner.slice(1) : ' ' + subInner}`.replace(/\s+$/,'')
+  )
 }

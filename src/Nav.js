@@ -1,7 +1,7 @@
 import React from 'react';
-import {elem, nested, rules, units, media} from './styled-elem'
+import {elem, nested, rules, pseudo, units, media} from './styled-elem'
 import {borders, flex, grey, blue } from './styles'
-const { margin, height, padding, color, fill, maxWidth } = rules
+const { borderBottom, margin, height, padding, color, fill, maxWidth, cursor} = rules
 const { rem } = units
 
 const Outer = elem(
@@ -26,8 +26,8 @@ const Item = elem(
     height('100%'),
     fill('currentColor')
   ),
-  nested('&:hover',
-    color(blue)
+  pseudo('hover,active',
+    cursor('pointer')
   )
 )
 
