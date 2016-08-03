@@ -435,10 +435,11 @@ I have a gut feel that there _is_ a good solution out there, but I haven't found
 There's just heaps of stuff in here that's not ready for real use yet. Such as:
 
 - [ ] At the moment I'm just parsing the CSS line-by-line. Obviously we'd need a real lexer (we may have to write our own, since the way the interpolations interplay with the literal strings is... complicated).
-- [ ] There are two types of descendant selectors implemented, those that start with a `&` and those that don't. I used `&` because it's familiar from Sass but there are a lot of use cases we'd need to cover (e.g. `html.feature-flag & {}`), and Aphrodite is hard enough to deal with already. Speaking of...
+- [x] [fixed](https://github.com/geelen/css-components-demo/commit/158afda6d225b7c0c28243a266c0020941f077a6) ~~There are two types of descendant selectors implemented, those that start with a `&` and those that don't. I used `&` because it's familiar from Sass but there are a lot of use cases we'd need to cover (e.g. `html.feature-flag & {}`), and Aphrodite is hard enough to deal with already. Speaking of...~~
 - [ ] Build a proper CSS injection tool instead of butchering Aphrodite (poor Aphrodite!). Everything I've talked about is about the Problem Existing Between Keyboard And Chair of styling — i.e. the Developer Experience. How can we make styling easier to write, combine, refactor, port, maintain, publish, etc. There are some great things in Aphrodite, but the real JS Styling solution is going to need all the stuff in https://github.com/css-components/spec. I'm hoping nothing I've proposed prevents us from doing so.
 - [ ] Performance, server-side rendering, etc. I'm not sure on the implications of my `Element` component wrapper yet. But if there's some fancy stuff to be done, like generating styles on `componentWillMount` and caching them or something, `Element` seems like a good place to put all that logic. That way, if we get it right, everyone wins without caring about the internals. Party times.
 - [ ] API decisions. I don't mind `elem`, I quite like `css`, as names. `rules` and the way you have to deconstruct them is a pain. Maybe a babel plugin would help? Though tbh it's so easy to use `css` for anything literal and keep `rules` for when you're building higher-order-styling components. But `traits` API, etc, all up for grabs.
+- [ ] Testing omg (once the API has settled down).
 - [ ] Many more things. Oh so much.
 
 ---
