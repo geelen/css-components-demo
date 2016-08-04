@@ -302,7 +302,7 @@ That's right. Instead of using a template string to convert _to_ a string, we're
 const bottomBorderOnHover = css`
   &:hover {
     ${borderBottom('1px solid')}
-  )
+  }
 `
 
 const Nav = elem('nav', css`
@@ -310,8 +310,8 @@ const Nav = elem('nav', css`
   > * {
     flex-grow: 1;
     ${bottomBorderOnHover}
-  )
-)
+  }
+`)
 ```
 
 Note that we're jumping between all of these seamlessly:
