@@ -11,6 +11,10 @@ import { elem } from 'styled-elem'
 
 const Outer = elem('section', /* styles go here */)
 
+/* this generates & bunch of styles & classnames then calls React.createElement('section', ...)
+ * internally (which is what the JSX compiler generates when you type <section>)
+ */
+
 export default (props) => (
   <Outer /* attributes as normal */>
     { /* children, too */ }
