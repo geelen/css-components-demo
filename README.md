@@ -11,9 +11,9 @@ import { elem } from 'styled-elem'
 
 const Outer = elem('section', /* styles go here */)
 
-/* this generates & bunch of styles & classnames then creates a simple component that
- * wraps React.createElement('section', ...), which is what the JSX compiler generates
- * when it sees <section>
+/* this generates & bunch of styles & classnames then creates a simple component
+ * that wraps React.createElement('section', ...), which is basically the same as
+ * what the JSX compiler does when you write <section>
  */
 
 export default (props) => (
