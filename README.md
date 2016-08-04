@@ -128,7 +128,7 @@ export const typography = trait('typography', {
      bold: 500
   },
   size: {
-    '24pt': '1.4rem',
+    '24pt': '1.5rem',
     '18pt': '1.125rem',
     '16pt': '1rem'
   }
@@ -156,7 +156,7 @@ export const typography = trait('typography', {
      default: null
   },
   size: {
-    '20pt': '1.25rem',
+    '24pt': '1.5rem',
     '18pt': '1.125rem',
     '16pt': '1rem',
     default: null,
@@ -185,7 +185,7 @@ export const typography = trait('typography', {
      default: null
   },
   size: {
-    '20pt': fontSize('1.25rem'),
+    '24pt': fontSize('1.5rem'),
     '18pt': fontSize('1.125rem'),
     '16pt': fontSize('1rem'),
     default: null
