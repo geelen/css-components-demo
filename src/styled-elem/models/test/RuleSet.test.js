@@ -1,8 +1,8 @@
-import RuleSet from './RuleSet'
-import Rule from './Rule'
-import MediaQuery from './MediaQuery'
-import NestedSelector from './NestedSelector'
-import ValidRuleSetChild from './ValidRuleSetChild'
+import RuleSet from '../RuleSet'
+import Rule from '../Rule'
+import MediaQuery from '../MediaQuery'
+import NestedSelector from '../NestedSelector'
+import ValidRuleSetChild from '../ValidRuleSetChild'
 import expect from 'expect'
 
 describe('RuleSet', () => {
