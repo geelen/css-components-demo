@@ -19,5 +19,8 @@
     "eject": "react-scripts eject",
     "test": "mocha 'src/styled-elem/**/*.test.js' --compilers js:./mocha.js",
     "test:watch": "npm run test -- --watch"
+  },
+  "eslintConfig": {
+    "extends": "./node_modules/react-scripts/config/eslint.js"
   }
 }
