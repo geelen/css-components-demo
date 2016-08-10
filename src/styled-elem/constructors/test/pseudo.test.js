@@ -19,10 +19,9 @@ describe('pseudo', () => {
     expect(result.selector).toEqual('&:after,&:before')
   })
 
-  // TODO Fix this
-  it.skip('should handle spaces', () => {
+  it('should handle spaces', () => {
     const result = pseudo('after, before')
-    expect(result.selector).toEqual('&:after, &:before')
+    expect(result.selector).toEqual('&:after,&:before')
   })
 
   it('should add a rule', () => {
