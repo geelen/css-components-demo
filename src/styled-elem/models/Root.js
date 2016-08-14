@@ -23,9 +23,7 @@ export default class Root {
 const injectCss = (selector, rules, fragments) => {
   injectStyleOnce(selector, selector, [rules], false)
   fragments.forEach(fragment => {
-    const selector2 = joinSelectors(selector, fragment.selector);
-    console.log(selector2)
-    injectCss(selector2, fragment.rules, fragment.fragments)
+    injectCss(joinSelectors(selector, fragment.selector), fragment.rules, fragment.fragments)
   })
 }
 
