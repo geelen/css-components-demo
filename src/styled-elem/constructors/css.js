@@ -5,8 +5,8 @@ import RuleSet from "../models/RuleSet";
 import NestedSelector from "../models/NestedSelector";
 import ValidRuleSetChild from "../models/ValidRuleSetChild";
 
-const declaration = /^\s*([\w-]+):\s+([^;]*);\s*$/
-const startNesting = /^\s*([\w\.:&>][^{]+)\{\s*$/
+const declaration = /^\s*([\w-]+):\s*([^;]*);\s*$/
+const startNesting = /^\s*([\w\.:&>][^{]+?)\s*\{\s*$/
 const stopNesting = /^\s*}\s*$/
 
 /* This is a bit complicated.
