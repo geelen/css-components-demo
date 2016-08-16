@@ -1,5 +1,5 @@
 import React from 'react';
-import {elem, nested, rules, pseudo, units, media} from './styled-elem'
+import {elem, nested, rules, pseudo, units, media} from 'styled-components'
 import {borders, flex, grey, blue } from './styles'
 const { borderBottom, margin, height, padding, color, fill, maxWidth, cursor} = rules
 const { rem } = units

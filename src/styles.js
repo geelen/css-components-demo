@@ -1,4 +1,4 @@
-import { trait, rule, rules, concat, css } from './styled-elem'
+import { trait, rule, rules, concat, css } from 'styled-components'
 const {flexDirection, fontWeight, alignItems, justifyContent, background, color, display, fontFamily, fontFeatureSettings, lineHeight, fontSize, textTransform } = rules
 
 export const lightGrey = '#e1e8ed'

@@ -1,7 +1,7 @@
 import React from 'react';
-import { elem, rules, css, media, nested } from './styled-elem'
-import { minHeight } from './styled-elem/rules'
-import { vh } from './styled-elem/units'
+import { elem, rules, css, media, nested } from 'styled-components'
+import { minHeight } from 'styled-components/lib/rules'
+import { vh } from 'styled-components/lib/units'
 import { backgrounds, typography } from './styles'
 
 import Nav from './Nav'

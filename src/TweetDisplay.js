@@ -1,5 +1,5 @@
 import React from 'react'
-import {elem, css, rules, units} from './styled-elem'
+import {elem, css, rules, units} from 'styled-components'
 import {flex, typography, borders, grey} from './styles'
 import FooterActions from './FooterActions'
 
@@ -82,7 +82,7 @@ export default () => (
   <Outer>
     <Header>
       <Profile>
-        <img src="https://pbs.twimg.com/profile_images/681114454029942784/PwhopfmU_reasonably_small.jpg" alt=""/>
+        <img src="https://pbs.twimg.com/profile_images/763033229993574400/6frGyDyA_reasonably_small.jpg" alt=""/>
       </Profile>
       <Name>
         <h1>Max Stoiber</h1>

@@ -1,5 +1,5 @@
 import React from 'react'
-import {elem, css} from './styled-elem'
+import {elem, css} from 'styled-components'
 import {borders, greyThenBlueOnHover, flex} from "./styles";
 
 const Footer = elem('footer', css`
