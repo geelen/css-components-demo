@@ -3,24 +3,18 @@
   "version": "0.0.1",
   "private": true,
   "devDependencies": {
-    "aphrodite": "^0.5.0",
-    "babel-core": "^6.13.1",
     "css-wipe": "^4.2.2",
-    "fbjs": "^0.8.3",
-    "expect": "^1.20.2",
-    "mocha": "^3.0.1",
     "react-scripts": "0.2.0"
   },
   "dependencies": {
     "react": "^15.2.1",
-    "react-dom": "^15.2.1"
+    "react-dom": "^15.2.1",
+    "styled-components": "0.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "eject": "react-scripts eject",
-    "test": "mocha 'src/styled-elem/**/*.test.js' --compilers js:./mocha.js",
-    "test:watch": "npm run test -- --watch"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "./node_modules/react-scripts/config/eslint.js"
