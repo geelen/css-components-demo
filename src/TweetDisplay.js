@@ -1,5 +1,5 @@
 import React from 'react'
-import styled, {elem, css, rules, units} from 'styled-components'
+import styled from 'styled-components'
 import {flex, typography, borders, grey} from './styles'
 import FooterActions from './FooterActions'
 
