@@ -1,8 +1,8 @@
 import React from 'react'
-import {elem, css} from 'styled-components'
+import styled, {elem, css} from 'styled-components'
 import {borders, greyThenBlueOnHover, flex} from "./styles";
 
-const Footer = elem('footer', css`
+const Footer = styled.footer`
   ${borders('top light')}
   ${flex('align-center space-around')}
   margin-bottom: 1rem;
@@ -13,7 +13,7 @@ const Footer = elem('footer', css`
     padding: 0.5rem 1rem;
     ${greyThenBlueOnHover}
   }
-`)
+`
 
 export default () => (
   <Footer>

@@ -1,35 +1,36 @@
 import React from 'react';
-import {elem, nested, rules, pseudo, units, media} from 'styled-components'
+import styled, {elem, nested, rules, pseudo, units, media} from 'styled-components'
 import {borders, flex, grey, blue } from './styles'
 const { borderBottom, margin, height, padding, color, fill, maxWidth, cursor} = rules
 const { rem } = units
 
-const Outer = elem(
-  borders('bottom light'),
-)
-const Nav = elem('nav',
-  height(rem(3.28)),
-  flex('space-between'),
-  maxWidth(400),
-  margin('0 auto'),
-  padding('0 0.5rem 0.25rem'),
-  media('min-width: 600px',
-    maxWidth(600)
-  )
-)
+const Outer = styled.div`
+  ${borders('bottom light')}
+`
 
-const Item = elem(
-  height('100%'),
-  padding(rem(0.5)),
-  color(grey),
-  nested('> *',
+const Nav = styled.nav`
+  height: 3.28rem;
+  ${flex('space-between')}
+  max-width: 400px;
+  ${margin('0 auto')}
+  ${padding('0 0.5rem 0.25rem')}
+  ${media('min-width: 600px',
+    maxWidth(600)
+  )}
+`
+
+const Item = styled.div`
+  ${height('100%')}
+  ${padding(rem(0.5))}
+  ${color(grey)}
+  ${nested('> *',
     height('100%'),
     fill('currentColor')
-  ),
-  pseudo('hover,active',
+  )}
+  ${pseudo('hover,active',
     cursor('pointer')
-  )
-)
+  )}
+`
 
 export default () => (
   <Outer>

@@ -1,28 +1,28 @@
 import React from 'react'
-import {elem, css, rules, units} from 'styled-components'
+import styled, {elem, css, rules, units} from 'styled-components'
 import {flex, typography, borders, grey} from './styles'
 import FooterActions from './FooterActions'
 
-const Outer = elem(css`
+const Outer = styled.div`
   padding: 0 .6rem;
   ${typography('darkGrey')}
-`)
+`
 
-const Header = elem(css`
+const Header = styled.div`
   ${flex('align-stretch')}
   padding: 1rem 0 0.66rem;
-`)
+`
 
-const Profile = elem(css`
+const Profile = styled.div`
   flex-grow: 1;
   flex-basis: 0;
   > img {
     width: 100%;
     ${borders('rounded')}
   }
-`)
+`
 
-const Name = elem(css`
+const Name = styled.div`
   flex-grow: 7;
   flex-basis: 0;
   margin-left: 0.5rem;
@@ -32,14 +32,14 @@ const Name = elem(css`
   > h2 {
     ${typography('grey')}
   }
-`)
+`
 
-const Body = elem(css`
+const Body = styled.div`
   padding: 0.66rem 0;
   ${typography('20pt light lh-para')}
-`)
+`
 
-const InlineLink = elem('a', css`
+const InlineLink = styled.a`
   ${typography('blue')}
   text-decoration: none;
   &:hover, &:active {
@@ -51,21 +51,21 @@ const InlineLink = elem('a', css`
       }
     }
   }
-`)
+`
 
-const Media = elem(css`
+const Media = styled.div`
   margin: 1rem 0;
   > img {
     max-width: 100%;
     ${borders('all light')}
   }
-`)
+`
 
-const Timestamp = elem('datetime', css`
+const Timestamp = styled.time`
   color: ${grey};
-`)
+`
 
-const TootCount = elem(css`
+const TootCount = styled.div`
   ${borders('top light')}
   ${typography('upcase bold')}
   margin-top: 1rem;
@@ -76,7 +76,7 @@ const TootCount = elem(css`
   > small:first-child {
     margin-right: 2rem;
   }
-`)
+`
 
 export default () => (
   <Outer>
