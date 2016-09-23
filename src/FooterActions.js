@@ -3,7 +3,7 @@ import styled, {elem, css} from 'styled-components'
 import {borders, greyThenBlueOnHover, flex} from "./styles";
 
 const Footer = styled.footer`
-  ${borders('top light')}
+  border-top: ${borders.light};
   ${flex('align-center space-around')}
   margin-bottom: 1rem;
   height: 3.33rem;

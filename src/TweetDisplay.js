@@ -18,7 +18,7 @@ const Profile = styled.div`
   flex-basis: 0;
   > img {
     width: 100%;
-    ${borders('rounded')}
+    border-radius: 0.35rem;
   }
 `
 
@@ -57,7 +57,7 @@ const Media = styled.div`
   margin: 1rem 0;
   > img {
     max-width: 100%;
-    ${borders('all light')}
+    border: ${borders.light};
   }
 `
 
@@ -66,7 +66,7 @@ const Timestamp = styled.time`
 `
 
 const TootCount = styled.div`
-  ${borders('top light')}
+  border-top: ${borders.light};
   ${typography('upcase bold')}
   margin-top: 1rem;
   padding: 1.33rem 0;

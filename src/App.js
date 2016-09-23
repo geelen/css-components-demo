@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { elem, rules, css, media, nested } from 'styled-components'
+import styled from 'styled-components'
 import { backgrounds, typography } from './styles'
 
 import Nav from './Nav'
@@ -17,9 +17,9 @@ const Main = styled.main`
   ${typography('sans')}
   max-width: 400px;
   margin: 0 auto;
-  ${media('min-width: 600px', css`
+  @media (min-width: 600px) {
     max-width: 600px;
-  `)}
+  }
 `
 
 export default () =>

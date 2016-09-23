@@ -1,35 +1,33 @@
 import React from 'react';
-import styled, {elem, nested, rules, pseudo, units, media} from 'styled-components'
+import styled from 'styled-components'
 import {borders, flex, grey, blue } from './styles'
-const { borderBottom, margin, height, padding, color, fill, maxWidth, cursor} = rules
-const { rem } = units
 
 const Outer = styled.div`
-  ${borders('bottom light')}
+  border-bottom: ${borders.light};
 `
 
 const Nav = styled.nav`
   height: 3.28rem;
   ${flex('space-between')}
   max-width: 400px;
-  ${margin('0 auto')}
-  ${padding('0 0.5rem 0.25rem')}
-  ${media('min-width: 600px',
-    maxWidth(600)
-  )}
+  margin: 0 auto;
+  padding: 0 0.5rem 0.25rem;
+  @media (min-width: 600px) {
+    max-width: 600px;
+  }
 `
 
 const Item = styled.div`
-  ${height('100%')}
-  ${padding(rem(0.5))}
-  ${color(grey)}
-  ${nested('> *',
-    height('100%'),
-    fill('currentColor')
-  )}
-  ${pseudo('hover,active',
-    cursor('pointer')
-  )}
+  height: 100%;
+  padding: 0.5rem;
+  color: ${grey};
+  > * {
+    height: 100%;
+    fill: currentColor;
+  }
+  &:hover,&:active {
+    cursor: pointer;
+  }
 `
 
 export default () => (
